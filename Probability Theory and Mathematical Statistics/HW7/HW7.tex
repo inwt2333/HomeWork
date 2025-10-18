@@ -1,0 +1,223 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+
+\title{\textbf{10月17日作业}}
+\author{韩岳成 524531910029}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{题目\arabic{problemname}. }}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\par}
+\newenvironment{note}{\par\noindent\textbf{题目\arabic{problemname}的注记. }}{\par}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+    在集合$\{1,2,\cdots,n\}$中不放回地取两次数，每次任取一数，用$X$表示第一次取到的数，用$Y$表示第二次取到的数，
+
+    (1)求$(X,Y)$的联合分布律；
+
+    (2)用表格形式写出当$n=3$时$(X,Y)$的联合分布律.
+\end{problem}
+\begin{solution}
+    (1)由于是从集合$\{1,2,\cdots,n\}$中不放回地取两次数，所以$X$和$Y$的取值范围均为$\{1,2,\cdots,n\}$，且$X\neq Y$.因此$(X,Y)$的联合分布律为
+    \[P\{X=x,Y=y\}=\begin{cases}
+    \frac{1}{n(n-1)}, & x,y=1,2,\cdots,n;x\neq y;\\
+    0, & x=y.
+    \end{cases}\]
+    (2)当$n=3$时，$(X,Y)$的联合分布律表格如下：
+    \[\begin{array}{c|ccc}
+    X\backslash Y & 1 & 2 & 3 \\
+    \hline
+    1 & 0 & \frac{1}{6} & \frac{1}{6} \\
+    2 & \frac{1}{6} & 0 & \frac{1}{6} \\
+    3 & \frac{1}{6} & \frac{1}{6} & 0
+    \end{array}\]
+\end{solution}
+
+\begin{problem}
+    设随机变量 $X \sim U(-1,2)$, $Y_1=\begin{cases} 0, & X<0, \\ 1, & 0\leqslant X<1, \\ 2, & X\geqslant 1, \end{cases}$ $Y_2=\begin{cases} -1, & X>0, \\ 1, & X\leqslant 0, \end{cases}$ 求随机变量 $(Y_1,Y_2)$ 的联合分布律与边缘分布律.
+\end{problem}
+\begin{solution}
+    首先，由于$X\sim U(-1,2)$，则随机变量$X$的概率密度函数为
+    \[f_X(x)=\begin{cases}
+    \frac{1}{3}, & -1<x<2;\\
+    0, & \text{其他}.
+    \end{cases}\]
+    根据$Y_1$和$Y_2$的定义，可知$(Y_1,Y_2)$的取值范围为$\{(0,1),(1,-1),(2,-1)\}$.下面分别计算这三个取值的概率：
+    \begin{align*}
+    P\{Y_1=0,Y_2=1\} &= P\{X<0\} = \int_{-1}^{0} \frac{1}{3} \, dx = \frac{1}{3}; \\
+    P\{Y_1=1,Y_2=-1\} &= P\{0 \leqslant X < 1\} = \int_{0}^{1} \frac{1}{3} \, dx = \frac{1}{3}; \\
+    P\{Y_1=2,Y_2=-1\} &= P\{X \geqslant 1\} = \int_{1}^{2} \frac{1}{3} \, dx = \frac{1}{3}.
+    \end{align*}
+    因此，$(Y_1,Y_2)$的联合分布律为
+    \[P\{Y_1=y_1,Y_2=y_2\}=\begin{cases}
+    \frac{1}{3}, & (y_1,y_2)=(0,1),(1,-1),(2,-1);\\
+    0, & \text{其他}.
+    \end{cases}\]
+    接下来计算边缘分布律：
+    \begin{align*}
+    P\{Y_1=0\} &= P\{Y_1=0,Y_2=1\} = \frac{1}{3}; \\
+    P\{Y_1=1\} &= P\{Y_1=1,Y_2=-1\} = \frac{1}{3}; \\
+    P\{Y_1=2\} &= P\{Y_1=2,Y_2=-1\} = \frac{1}{3}; \\
+    P\{Y_2=-1\} &= P\{Y_1=1,Y_2=-1\} + P\{Y_1=2,Y_2=-1\} = \frac{2}{3}; \\
+    P\{Y_2=1\} &= P\{Y_1=0,Y_2=1\} = \frac{1}{3}
+    \end{align*}
+\end{solution}
+
+\begin{problem}
+    设随机变量(X,Y)的联合概率密度为
+
+    $f(x,y)=\begin{cases}ke^{-2x-4y},&x>0,y>0,\\0,&\text{其他}.\end{cases}$
+
+    求：(1) 常数k;
+
+    (2) $P(0\leqslant X\leqslant 2,0<Y\leqslant 1)$;
+
+    (3) $P(X+Y<1)$;
+
+    (4) 联合分布函数$F(x,y)$.
+\end{problem}
+
+\begin{solution}
+    (1) 由于$f(x,y)$是联合概率密度函数，所以
+    \[\iint_{-\infty}^{+\infty} f(x,y) \, dx \, dy = 1.\]
+    计算该积分：
+    \begin{align*}
+    \iint_{-\infty}^{+\infty} f(x,y) \, dx \, dy &= \int_{0}^{\infty} \int_{0}^{\infty} ke^{-2x-4y} \, dy \, dx \\
+    &= k \int_{0}^{\infty} e^{-2x} \left( \int_{0}^{\infty} e^{-4y} \, dy \right) dx \\
+    &= \frac{1}{8}k = 1.
+    \end{align*}
+    因此，$k=8$.
+
+    (2) 计算$P(0\leqslant X\leqslant 2,0<Y\leqslant 1)$：
+    \begin{align*}
+    P(0\leqslant X\leqslant 2,0<Y\leqslant 1) &= \int_{0}^{2} \int_{0}^{1} 8e^{-2x-4y} \, dy \, dx \\
+    &= \int_{0}^{2} 8e^{-2x} \left( \int_{0}^{1} e^{-4y} \, dy \right) dx \\
+    &= (1 - e^{-4})^2.
+    \end{align*}
+
+    (3) 计算$P(X+Y<1)$：
+    \begin{align*}
+    P(X+Y<1) &= \int_{0}^{1} \int_{0}^{1-x} 8e^{-2x-4y} \, dy \, dx \\
+    &= \int_{0}^{1} 8e^{-2x} \left( \int_{0}^{1-x} e^{-4y} \, dy \right) dx \\
+    &= 2 \int_{0}^{1} e^{-2x} (1 - e^{-4 + 4x}) \, dx. \\
+    &= 1 - 2e^{-2} + e^{-4}.
+    \end{align*}
+
+    (4) 联合分布函数$F(x,y)$为
+    \begin{align*}
+    F(x,y) &= P(X \leqslant x, Y \leqslant y) \\
+    &= \int_{0}^{x} \int_{0}^{y} 8e^{-2u-4v} \, dv \, du \\
+    &= \left( \int_{0}^{x} 8e^{-2u} \,\d u\right) \left( \int_{0}^{y} e^{-4v} \, dv \right) \\
+    &= (1 - e^{-2x})(1 - e^{-4y}).
+    \end{align*}
+    因此，
+    \[F(x,y)=\begin{cases}
+    (1 - e^{-2x})(1 - e^{-4y}), & x>0, y>0, \\
+     0, & \text{其他}.
+    \end{cases}\]
+\end{solution}
+
+\begin{problem}
+设二维随机变量$(X,Y)$的联合概率密度为
+\[f(x,y)=\begin{cases}kx,&(x,y)\,\in G,\\0,&(x,y)\notin G.\end{cases}\]
+其中$G$是由$x$轴，直线$y=\frac x2$和$x=2$所确定的区域。
+
+求：（1）常数$k$；
+
+（2）$P(X+Y \leqslant 2)$；
+
+（3）边缘概率密度$f_X(x)$和$f_Y(y)$；
+\end{problem}
+\begin{solution}
+(1) 由于$f(x,y)$是联合概率密度函数，所以
+\begin{align*}
+\iint_{-\infty}^{+\infty} f(x,y) \,dx \, dy &= \int_{0}^{2} \int_{0}^{\frac{x}{2}} kx \, dy \, dx \\
+&= \int_{0}^{2} kx \cdot \frac{x}{2} \, dx \\
+&= \frac{k}{2} \int_{0}^{2} x^2 \, dx = \frac{4k}{3} = 1.
+\end{align*}
+因此，$k=\frac{3}{4}$.
+
+(2) 计算$P(X+Y\leqslant 2)$：
+\begin{align*}
+P(X+Y\leqslant 2) &= \iint_{D} f(x,y) \,dx \,dy, \\
+&= \int_{0}^{\frac23} \int_{2y}^{2 - y} \frac{3}{4} x \, dx \, dy \\
+&= \int_{0}^{\frac23} (-\frac98 y^2 -\frac32 y + \frac 32) \, dy \\
+&= \frac59.
+\end{align*}
+其中$D=\{(x,y):x>0,y>0,x+y\leqslant 2\}$.
+
+(3) 计算边缘概率密度$f_X(x)$和$f_Y(y)$：
+\[f_X(x)=\begin{cases}
+\int_{0}^{\frac{x}{2}} f(x,y) \,dy = \int_{0}^{\frac{x}{2}} \frac34 x \,dy = \frac34 x \cdot \frac{x}{2} = \frac{3x^2}{8}, & \quad 0<x<2; \\
+0, & \quad \text{其他}.
+\end{cases}\]
+\[f_Y(y)=\begin{cases}
+\int_{2y}^{2} f(x,y) \,dx = \int_{2y}^{2} \frac34 x \,dx = \frac32(1-y^2), & \quad 0<y<1; \\
+0, & \quad \text{其他}.
+\end{cases}\]
+
+\end{solution}
+
+\begin{problem}
+设随机变量$(X,Y)$在区域 $G=\left\{(x,y)|y=x^2,y=\frac{x^2}2,x=1\right\}$上服从均匀分布.
+
+求：(1)$(X,Y)$的联合概率密度；
+
+(2)$(X,Y)$的边缘概率密度.
+\end{problem}
+\begin{solution}
+(1) 计算区域$G$的面积：
+\[
+S_G = \int_{0}^{1} \int_{\frac{x^2}{2}}^{x^2} \, dy \, dx = \frac{1}{6}.
+\]
+由于$(X,Y)$在区域$G$上服从均匀分布，所以$(X,Y)$的联合概率密度为
+\[f(x,y)=\begin{cases}
+6, & (x,y) \in G; \\
+0, & \text{其他}.
+\end{cases}\]
+
+(2) 计算边缘概率密度$f_X(x)$和$f_Y(y)$：
+\[f_X(x)=\begin{cases}
+\int_{\frac{x^2}{2}}^{x^2} f(x,y) \, dy = \int_{\frac{x^2}{2}}^{x^2} 6 \, dy = 6 \cdot \frac{x^2}{2} = 3x^2, & 0<x<1; \\
+0, & \text{其他}.
+\end{cases}\]
+\[f_Y(y)=\begin{cases}
+\int^{\sqrt{2y}}_{\sqrt{y}} f(x,y) \, dx = \int^{\sqrt{2y}}_{\sqrt{y}} 6 \, dx = 6(\sqrt{2y} - \sqrt{y}) = 6\sqrt{y}(\sqrt{2}-1), & 0<y<\frac12; \\
+\int_{\sqrt{y}}^{1} f(x,y) \, dx = \int_{\sqrt{y}}^{1} 6 \, dx = 6(1 - \sqrt{y}), & \frac12 \leqslant y < 1; \\
+0, & \text{其他}.
+\end{cases}\]
+\end{solution} 
+\begin{problem}
+设二维随机变量(X,Y)的联合分布函数为
+$$F(x,y)=\begin{cases}
+1-e^{-0.01x}-e^{-0.01y}+e^{-0.01(x+y)},&x\geq0,y\geq0,\\
+0,&\text{其他.}
+\end{cases}$$
+求（1）$P(X>100,Y>50)$;
+
+(2)求两个边缘分布函数$F_X(x),F_Y(y)$;
+
+(3)$P(X\le 100);P(80<Y\le 100)$
+\end{problem}
+\begin{solution}
+(1) \[ P(X>100,Y>50) = 1 - F(100,50) = e^{-1} + e^{-0.5} - e^{-1.5}. \]
+
+(2) 计算边缘分布函数$F_X(x)$和$F_Y(y)$：
+\[F_X(x) = F(x, +\infty) = \begin{cases}
+1 - e^{-0.01x}, & x \geq 0; \\
+0, & \text{其他}.
+\end{cases}\]
+\[F_Y(y) = F(+\infty, y) = \begin{cases}
+1 - e^{-0.01y}, & y \geq 0; \\
+0, & \text{其他}.
+\end{cases}\]
+
+(3) \[ P(X \leq 100) = F_X(100) = 1 - e^{-1}. \]
+\[ P(80 < Y \leq 100) = F_Y(100) - F_Y(80) = (1 - e^{-1}) - (1 - e^{-0.8}) = e^{-0.8} - e^{-1}. \]
+\end{solution}
+\end{document}

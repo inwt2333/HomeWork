@@ -1,0 +1,116 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+
+\title{\textbf{10月15日作业}}
+\author{韩岳成 524531910029}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{题目\arabic{problemname}. }}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\par}
+\newenvironment{note}{\par\noindent\textbf{题目\arabic{problemname}的注记. }}{\par}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+    某地区成年男子的体重X(单位：kg)服从正态分布N(66,$\sigma^2$)，且已知P(X$\le$60)=0.25.若在该地区随机选取3人，求至少1人体重超过65kg的概率.
+\end{problem}
+\begin{solution}
+    $\Phi(\frac{60-66}{\sigma})=0.25\approx1- \Phi(0.67)=\Phi(-0.67)$，解得$\sigma\approx 9$
+    
+    $P(X\ge 65)=1-P(X\le 67)=1-\Phi(\frac{67-66}{9})\approx0.544$
+
+    设Y为体重超过65kg的人数，则$Y\sim B(3,0.544)$，则至少1人体重超过65kg的概率为$P(Y\ge 1)=1-P(Y=0)=1-(1-0.544)^3\approx 0.905$
+\end{solution}
+\begin{problem}
+    
+    设随机变量X的分布函数
+    
+    $F\left(x\right)=\begin{cases}0,&\quad x<-2,\\0.3,&\quad-2\leqslant x<-1,\\0.9,&\quad-1\leqslant x<2,\\1,&\quad x\geqslant2.\end{cases}$
+
+    求随机变量$Y=X^2-3$和$Z=|X|$的分布律.
+
+
+\end{problem}
+\begin{solution}
+    由题得，
+
+    $f_X\left(x\right)=\begin{cases}0.3,&x=-2,\\0.6,&x=-1,\\0.1,&x=2,\\0,&\text{others}.\end{cases}$
+
+    当$X=-2,-1,2$时,$Y=1,-2,1,Z=2,1,2$,
+
+    $P(Y=-2)=P(X=-1)=f_X(-1)=0.6$
+
+    $P(Y=1)=P(X=-2)+P(X=2)=f_X(-2)+f_X(2)=0.4$
+
+    $P(Z=1)=P(X=-1)=f_X(-1)=0.6$
+
+    $P(Z=2)=P(X=-2)+P(X=2)=f_X(-2)+f_X(2)=0.4$
+
+    因此，
+
+    $f_Y\left(y\right)=\begin{cases}0.6,&y=-2,\\0.4,&y=1.\end{cases}$ 
+
+    $f_Z\left(z\right)=\begin{cases}0.6,&z=1,\\0.4,&z=2.\end{cases}$
+\end{solution}
+
+\begin{problem}
+    设随机变量X的分布函数为$F_X(x)$ ，求$Y=3-2X$的分布函数$F_Y(y)$.
+\end{problem}
+
+\begin{solution}
+    $f_Y(y)=P(Y\le y)=P(3-2X\le y)=P(X\ge\frac{3-y}{2})\\=1-P(X\le\frac{3-y}{2})+P(X=\frac{3-y}{2})=1-F_X(\frac{3-y}{2})+F_X(\frac{3-y}{2})-F_X(\frac{3-y}{2}-0)//=1-F_X(\frac{3-y}{2}-0)$
+\end{solution}
+
+\begin{problem}
+    通过点(0,1)任意作直线与x轴相交成$\theta$角 (0<$\theta$<$\pi$) , 求直线在x轴上的截距 X 的概率密度 f(x).
+\end{problem}
+
+\begin{solution}
+    由题意，$\Theta$在$(0,\pi)$上均匀分布，$\Theta\sim U(0,\pi)$，
+    
+    故$\theta$的分布函数$F_\Theta(\theta)=\begin{cases}\frac1\pi,&0<\theta<\pi,\\0,&\text{others}.\end{cases}$
+
+    由$-X=\cot\theta$ 得到 $\theta=\text{arccot}(-X),\quad \theta'=\frac{1}{1+x^2}$
+    
+    因此$f_X(x)=f_\Theta(\theta)\cdot|\theta'|=\frac{1}{\pi(1+x^2)}, \quad\in(-\infty.+\infty)$
+
+\end{solution}
+
+\begin{problem}
+    设随机变量$X$的绝对值不大于1，$P(X=-1)=\frac18,P(X=1)=\frac14.$在事件$\{-1<X<1\}$出现的条件下，$X$在$(-1,1)$内的任一子区间上取值的条件概率与该子区间的长度成正比，求$X$的分布函数$F\left(x\right).$
+\end{problem}
+
+\begin{solution}
+    \[
+    P(-1<X<1) = 1 - P(X=-1) - P(X=1)
+    = 1 - \frac{1}{8} - \frac{1}{4}
+    = \frac{5}{8}.
+    \]
+
+    由于在事件 \(\{-1<X<1\}\) 出现的条件下，\(X\) 在 \((-1,1)\) 内的任一子区间上取值的条件概率与该子区间长度成正比，因此在 \((-1,1)\) 上服从均匀分布。
+
+    设在 \((-1,1)\) 上的密度为常数 \(c\)，则有
+    $\int_{-1}^{1} c \, dx = 2c = \frac{5}{8}\quad$，
+    
+    解得$c = \frac{5}{16}.$
+    
+    因此，$f(x) = \begin{cases}\frac18,&x=-1\\\frac{5}{16}, & -1 < x < 1,\\\frac14,&x=1, \\0,& \text{others.}\end{cases}$
+
+    \[
+    F(x)=
+    \begin{cases}
+    0, & x < -1,\\[6pt]
+    P(X=-1)=\dfrac{1}{8}, & x = -1,\\[6pt]
+    \dfrac{1}{8} + \displaystyle\int_{-1}^{x} \frac{5}{16}\,dt
+    = \dfrac{1}{8} + \frac{5}{16}(x+1), & -1 < x < 1,\\[8pt]
+    1, & x \ge 1.
+    \end{cases}
+    \]
+    
+
+\end{solution}
+\end{document}
