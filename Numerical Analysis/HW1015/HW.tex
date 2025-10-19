@@ -1,0 +1,113 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+
+\title{\textbf{10月15日作业}}
+\author{韩岳成 524531910029}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{题目\arabic{problemname}. }}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\par}
+\newenvironment{note}{\par\noindent\textbf{题目\arabic{problemname}的注记. }}{\par}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+    设$Y_0=28$，按递推公式
+
+    \[
+    Y_n=Y_{n-1}-\frac{1}{100}\sqrt{783}\quad(n=1,2,\cdots)
+    \]
+
+    计算到$Y_{100}$，若取$\sqrt{783}\approx27.982$（五位有效数字），试问计算$Y_{100}$将有多大误差。
+\end{problem}
+
+\begin{solution}
+由递推公式 $Y_{n}=Y_{n-1}-\frac{1}{100}\sqrt{783}$ 得到 $\{Y_{n}\}$ 为等差数列.
+\[Y_{n}=Y_{0}-n\cdot\frac{1}{100}\sqrt{783} \quad\Rightarrow\quad Y_{100}=Y_{0}-100\cdot\frac{1}{100}\sqrt{783}=28-\sqrt{783}\]
+若取 $\sqrt{783}\approx27.982$，则 $Y_{100}=28-27.982$.由于将$\sqrt{783}$ 保留五位有效数字得到 $27.982$，则由有效数字的定义其绝对误差不超过 $\frac{1}{2}\times10^{-3}$，即$|\sqrt{783}-27.982|<\frac{1}{2}\times10^{-3}$，设取近似值后得到的 $Y_{100}$ 为 $Y_{100}^{*}$，则
+\[|Y_{100}-Y_{100}^{*}|=|\sqrt{783}-27.982|<\frac{1}{2}\times10^{-3}\]
+将$\sqrt{783}$的精确值代入计算，得
+\[|Y_{100}-Y_{100}^{*}|\approx1.37\times10^{-4}<5\times10^{-4}=\frac{1}{2}\times10^{-3}\]
+\end{solution}
+
+\begin{problem}
+计算$(\sqrt{2}-1)^6,\text{取}\sqrt{2}\approx1.4,$利用下式计算,哪一个得到的结果最好?
+\[\frac{1}{(\sqrt{2}+1)^6},\quad(3-2\sqrt{2})^3,\quad\frac{1}{(3+2\sqrt{2})^3},\quad99-70\sqrt{2}.\]
+\end{problem}
+
+\begin{solution}
+    设$f(x)=(x-1)^6$，$f^*(x)$为我们选取的估计函数\\$x=\sqrt{2},x^*=1.4,\epsilon=|x-x^*|=|\sqrt{2}-1.4|<\frac12\times10^{-1}$.
+
+    则根据柯西中值定理，存在$\xi$介于$x$与$x^*$之间，使得
+    \[|f(x^*)-f^*(x^*)|=|{f^{*}}'(\xi)||x-x^*|.\]
+    我们可以估计$\xi\approx x^*=1.4$，则\[|f(x^*)-f^*(x^*)|=|{f^{*}}'(x^*)|\epsilon\]
+    
+    对于$f_1^*(x)=\frac{1}{(x+1)^6}$,\[|f_1(x^*)-f^*(x^*)|=|{f_1^{*}}'(x^*)|\epsilon=\frac{6}{(x^*+1)^7}\epsilon=\frac{6}{(1.4+1)^7}\times\epsilon\approx1.3\times10^{-2}\epsilon.\]
+    对于$f_2^*(x)=(3-2x)^3$,\[|f_2(x^*)-f^*(x^*)|=|{f_2^{*}}'(x^*)|\epsilon=6(3-2x^*)^2\epsilon=6(3-2\times1.4)^2\epsilon=0.72\epsilon.\]
+    对于$f_3^*(x)=\frac{1}{(3+2x)^3}$,\[|f_3(x^*)-f^*(x^*)|=|{f_3^{*}}'(x^*)|\epsilon=\frac{6}{(3+2x^*)^4}\epsilon=\frac{6}{(3+2\times1.4)^4}\times\epsilon\approx2.66\times10^{-3}\epsilon.\]
+    对于$f_4^*(x)=99-70x$,\[|f_4(x^*)-f^*(x^*)|=|{f_4^{*}}'(x^*)|\epsilon=70\epsilon.\]
+    我们可以判断出利用 $\frac{1}{(3+2\sqrt{2})^{3}}$ 得到的结果误差最小.
+
+    我们使用真实值（更精确的 $\sqrt{2}=1.4142135623$）计算得
+    \[x=(\sqrt{2}-1)^{6}\approx5.050633883\times10^{-3}\]
+    若取 $\sqrt{2}\approx 1.4$，则:
+    \[x_{1}^{*}=\frac{1}{(\sqrt{2}+1)^{6}}\approx\frac{1}{(1.4+1)^{6}}\approx5.232780886\times10^{-3}, \quad |x-x_{1}^{*}|\approx1.82147\times10^{-4}\]
+    \[x_{2}^{*}=(3-2\sqrt{2})^{3}\approx(3-2\times1.4)^{3}=0.008, \quad |x-x_{2}^{*}|\approx2.94937\times10^{-3}\]
+    \[x_{3}^{*}=\frac{1}{(3+2\sqrt{2})^{3}}\approx\frac{1}{(3+2\times1.4)^{3}}\approx5.125261388\times10^{-3}, \quad |x-x_{3}^{*}|\approx7.46275\times10^{-5}\]
+    \[x_{4}^{*}=99-70\sqrt{2}\approx99-70\times1.4=1, \quad |x-x_{4}^{*}|\approx0.994949\]
+    因此，利用 $\frac{1}{(3+2\sqrt{2})^{3}}$ 得到的结果最好.
+\end{solution}
+
+\begin{problem}
+3. 给出 $f(x)=\ln x$ 的数值表（见表 2.9），用线性插值及二次插值计算 $\ln 0.54$ 的近似值。
+
+\begin{tabular}{l|ccccc}
+\hline
+$x$ & 0.4 & 0.5 & 0.6 & 0.7 & 0.8 \\
+\hline
+$\ln x$ & $-0.916 291$ & $-0.693 147$ & $-0.510 826$ & $-0.357 765$ & $-0.223 144$ \\
+\hline
+\end{tabular}
+\end{problem}
+
+\begin{solution}
+(1) 线性插值：利用 (10.5, -0.693147) 和 (10.6, -0.510826)
+\[l_{0}(x)=\frac{x-x_{1}}{x_{0}-x_{1}}=\frac{x-0.6}{0.5-0.6}=6-10x\]
+\[l_{1}(x)=\frac{x-x_{0}}{x_{1}-x_{0}}=\frac{x-0.5}{0.6-0.5}=10x-5\]
+\[y=(-0.693147)\times(6-10x)+(-0.510826)\times(10x-5)\]
+将 $x=0.54$ 代入得 $\ln(0.54)\approx-0.620219$
+
+(2) 二次插值：利用 (0.4, -0.916291), (10.5, -0.693147) 和 (10.6, -0.510826)
+$$l_{0}(x)=\frac{(x-x_{1})(x-x_{2})}{(x_{0}-x_{1})(x_{0}-x_{2})}=\frac{(x-0.5)(x-0.6)}{0.02}$$
+$$
+l_{1}(x)=\frac{(x-x_{0})(x-x_{2})}{(x_{1}-x_{0})(x_{1}-x_{2})}=\frac{(x-0.4)(x-0.6)}{-0.01}$$
+$$l_{2}(x)=\frac{(x-x_{0})(x-x_{1})}{(x_{2}-x_{0})(x_{2}-x_{1})}=\frac{(x-0.4)(x-0.5)}{0.02}$$
+$$
+y=(-0.916291)l_{0}(x)+(-0.693147)l_{1}(x)+(-0.510826)l_{2}(x)$$
+将 $x=0.54$ 代入得 $\ln(0.54) \approx -0.615320$
+\end{solution}
+
+\begin{problem}
+设$x_k=x_0+kh,k=0,1,2,3,$求$\max_{x_0\leqslant x\leqslant x_3}|l_2(x)|$.
+\end{problem}
+\begin{solution}
+$$f_2(x)=\frac{(x-x_0)(x-x_1)(x-x_3)}{(x_2-x_0)(x_2-x_1)(x_2-x_3)}=\frac{(x-x_0)(x-x_1)(x-x_3)}{2h\cdot h\cdot(-h)}$$
+\[\therefore x_0\leqslant x\leqslant x_3\therefore x_0\leqslant x\leqslant x_0+3h\]
+
+设$x=nh+x_0,n\in[0,3]$
+\[\therefore f_2(x)=\frac{nh\cdot(n-1)h\cdot(n-3)h}{2h\cdot h\cdot(-h)}=-\frac{n(n-1)(n-3)}{2}\]
+\[\Rightarrow|f_2(x)|=\frac{1}{2}|n(n-1)(n-3)|\]
+设\[f(x)=x(x-1)(x-3),x\in[0,3]\]
+求导解得在$x\in[0,3]$内,
+
+\[f(x)_{max}=f(\frac{4-\sqrt{7}}{3})=\frac{-20+14\sqrt{7}}{27}\]
+\[f(x)_{min}=f(\frac{4+\sqrt{7}}{3})=\frac{-20-14\sqrt{7}}{27}\]
+
+$|f(x)_{min}|>|f(x)_{max}|$
+因此\[\max_{x_0\leqslant x\leqslant x_3}|l_2(x)|=\frac{1}{2}|\frac{-20-14\sqrt{7}}{27}|=\frac{10+7\sqrt{7}}{27}\]
+\end{solution}
+\end{document}
