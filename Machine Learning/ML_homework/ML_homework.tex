@@ -17,16 +17,6 @@
 \usepackage{listings}              % 代码高亮
 \usepackage{subcaption}            % 子图环境
 
-% ==== 中文支持 (XeLaTeX) ==== 
-% 使用 fontspec 与 xeCJK，以便 xelatex 能正确渲染中文字符。
-% 如果系统中没有 Microsoft YaHei，请将其替换为你机器上的中文字体名称（例如 SimSun, SimHei, Noto Sans CJK SC 等）。
-\usepackage{fontspec}
-\usepackage{xeCJK}
-% 设置西文字体（可选）
-\setmainfont{Latin Modern Roman}
-% 设置中文主字体
-\setCJKmainfont{Microsoft YaHei}
-
 
 \title{\textbf{Solution}}
 \author{Yuecheng Han 524531910029}
@@ -175,7 +165,7 @@ for row_idx in range(N):
 			
 			\item \sone Let \texttt{M} store the output from part (i). Which line(s) of code correctly evaluate $\Omegav$ using \texttt{M}? \\
 			
-			{%
+			{
 				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				\begin{samepage}
 					\begin{checkboxes}
@@ -236,10 +226,17 @@ for row_idx in range(N):
 				
 				\begin{answer_box}[title=Gradient:,height=2cm,width=6cm]
 					% 答案区域
+					$24.4000$
 				\end{answer_box}
 				
 				\begin{answer_box}[title=Work,height=8cm]
-					% 计算过程（例：$\nabla_b J = \frac{2}{5}\sum (3x_i - y_i) = ...$）
+					$\nabla_b J = \frac2N\sum_{i=1}^N (wx_i + b - y_i)$
+
+					Let $N=5$, $w=3.0$, $b=0.0$, and input the data points:
+
+					$\nabla_b J = \frac25\left((3*7.0 + 0.0 - 2.0) + (3*3.0 + 0.0 - 1.0) + \right.$\\
+					$\left.(3*5.0 + 0.0 - 2.0) + (3*2.0 + 0.0 - 0.0) + (3*6.0 + 0.0 - 3.0)\right)$\\
+					$= 24.4000.$
 				\end{answer_box}
 				
 				\subquestion Using a step size of $0.01$, execute one iteration of the gradient descent algorithm. Report the updated values of both the slope and bias parameters following this update step. 
@@ -247,10 +244,12 @@ for row_idx in range(N):
 				
 				\begin{answer_box}[title=Weight:,height=2cm,width=6cm]
 					% 答案区域（例：3.0 - 0.01*gradient_w）
+					3.0 - 0.01 * 129.6000 = 1.7040
 				\end{answer_box}
 				
 				\begin{answer_box}[title=Intercept:,height=2cm,width=6cm]
 					% 答案区域（例：0.0 - 0.01*gradient_b）
+					0.0 - 0.01 * 24.4000 = -0.2440
 				\end{answer_box}
 			\end{subquestions}
 			
@@ -262,10 +261,11 @@ for row_idx in range(N):
 				\subquestion \sone Consider a transformed dataset
 				$\Dc_2 = \{(x^{(1)} + \alpha,\, y^{(1)} + \beta), \ldots, (x^{(N)} + \alpha,\, y^{(N)} + \beta)\}$, where $\alpha > 0, \beta > 0$ are constant shifts and $w_1 \alpha \neq \beta$. Let $y = w_2 x + b_2$ denote the optimal linear model minimizing squared error on $\Dc_2$. Identify which relationship between $w_1, w_2, b_1, b_2$ must hold universally for all valid choices of $\alpha, \beta$ satisfying the given constraints.
 				
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				\begin{checkboxes}
 					\choice $w_1 = w_2, b_1 = b_2$
 					\choice $w_1 \neq w_2, b_1 = b_2$
-					\choice $w_1 = w_2, b_1 \neq b_2$
+					\CorrectChoice $w_1 = w_2, b_1 \neq b_2$
 					\choice $w_1 \neq w_2, b_1 \neq b_2$
 				\end{checkboxes}
 				
@@ -273,6 +273,7 @@ for row_idx in range(N):
 				
 				\begin{answer_box}[title=Your answer:,height=4cm,width=15cm]
 					% 解释区域（例：Duplicated rows increase their weight in MSE; if duplicates are not representative, parameters shift.）
+					In standard linear regression, each data point contributes equally to the total loss. When a point is duplicated multiple times, its contribution to the total loss becomes amplified. During gradient descent, the optimization process overemphasizes these duplicated points, prioritizing their fit, which can cause the optimal regression coefficients to deviate from the original parameters.
 				\end{answer_box}
 			\end{subquestions}
 			
@@ -291,12 +292,14 @@ for row_idx in range(N):
 				
 				\begin{answer_box}[title=Your answer:,height=6cm,width=15cm]
 					% 答案区域（例：$\frac{\partial J^{(i)}}{\partial \theta_j} = -\frac{(y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})x_j^{(i)}}{1 + (y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})^2}$）
+					$\frac{\partial J^{(i)}}{\partial \theta_j} = -\frac{(y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})x_j^{(i)}}{1 + (y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})^2}$
 				\end{answer_box}
 				
 				\subquestion Express the full gradient vector of $J^{(i)}(\bm\theta)$ with respect to $\bm\theta$. (Hint: Leverage your answer from part (a))
 				
 				\begin{answer_box}[title=Your answer:,height=4cm,width=15cm]
 					% 答案区域（例：$\nabla_{\bm{\theta}} J^{(i)} = -\frac{(y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})\bm{x}^{(i)}}{1 + (y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})^2}$）
+					$ \nabla_{\bm{\theta}} J^{(i)} = -\frac{(y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})\bm{x}^{(i)}}{1 + (y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})^2}$
 				\end{answer_box}
 				
 				
@@ -304,6 +307,9 @@ for row_idx in range(N):
 				
 				\begin{answer_box}[title=Your Answer,height=5.5cm,width=15cm]
 					% 解释区域（例：Gradient converges to 0; Cauchy loss is robust to outliers (saturates for large errors).）
+					When the prediction error $(y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})$ becomes very large, the term $(y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})^2$ dominates the denominator $1 + (y^{(i)} - \bm{\theta}^T\bm{x}^{(i)})^2$. As a result, the gradient $\nabla_{\bm{\theta}} J^{(i)}$ approaches zero. 
+					
+					This behavior indicates that the Cauchy loss function is robust to outliers, as it reduces the influence of samples with large prediction errors on the parameter updates during optimization.
 				\end{answer_box}
 			\end{subquestions}
 		\end{enumerate}
@@ -325,9 +331,10 @@ for row_idx in range(N):
 				$(\xv^{(1)},y^{(1)})$, $\cdots$, $(\xv^{(N)},y^{(N)})$ and the remaining weights $w_1,\cdots,w_{k-1},w_{k+1},\cdots,w_M$:
 				
 				\begin{checkboxes}
+					\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 					% YOUR ANSWER
 					% Change \choice to \CorrectChoice for the appropriate selection/selections 
-					\choice $w_k = \frac{\sum_{i=1}^N x_k^{(i)}(y^{(i)}-\sum_{j=1,j\neq k}^M w_j x_j^{(i)})}{\sum_{i=1}^N (x_k^{(i)})^2}$
+					\CorrectChoice $w_k = \frac{\sum_{i=1}^N x_k^{(i)}(y^{(i)}-\sum_{j=1,j\neq k}^M w_j x_j^{(i)})}{\sum_{i=1}^N (x_k^{(i)})^2}$
 					\choice $w_k = \frac{\sum_{i=1}^N x_k^{(i)}(y^{(i)}-\sum_{j=1,j\neq k}^M w_j x_j^{(i)})}{\sum_{i=1}^N (y^{(i)})^2}$
 					\choice $w_k = \frac{\sum_{i=1}^N x_k^{(i)}(y^{(i)}-\sum_{j=1,j\neq k}^M w_j x_j^{(i)})}{\sum_{i=1}^N (x_k^{(i)} y^{(i)})^2}$
 					\choice $w_k = \sum_{i=1}^N x_k^{(i)}(y^{(i)}-\sum_{j=1}^M w_j x_j^{(i)})$
@@ -339,9 +346,10 @@ for row_idx in range(N):
 				\item \sone Determine the dimensionality of the parameter space (number of weights $w_k$ to estimate) and the number of constraint equations available from the optimality conditions:
 				
 				\begin{checkboxes}
+					\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 					% YOUR ANSWER
 					% Change \choice to \CorrectChoice for the appropriate selection/selections 
-					\choice $M$ coefficients, $M$ equations
+					\CorrectChoice $M$ coefficients, $M$ equations
 					\choice $M$ coefficients, $N$ equations
 					\choice $N$ coefficients, $M$ equations
 					\choice $N$ coefficients, $N$ equations
@@ -352,12 +360,13 @@ for row_idx in range(N):
 			\vspace*{7mm}
 			\item[(2)] \sall Function convexity is crucial for understanding optimization behavior in machine learning. Evaluate the following statements regarding convexity and identify all correct assertions:
 			
-			\begin{checkboxes} \checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+			\begin{checkboxes} 
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				% YOUR ANSWER
 				% Change \choice to \CorrectChoice for the appropriate selection/selections 
 				\choice Strictly convex functions may possess infinitely many global minimizers, whereas convex functions have at most one global minimizer.
 				\choice The $\ell_1$ loss (Mean Absolute Error), expressed as $L(y, \hat{y}) = \sum_{i=1}^N |y_i - \hat{y_i}|$, exhibits non-convex geometry.
-				\choice When the objective function is convex, optimization algorithms need not worry about being trapped in suboptimal local minima.
+				\CorrectChoice When the objective function is convex, optimization algorithms need not worry about being trapped in suboptimal local minima.
 				\choice The squared $\ell_2$ penalty term $\lambda ||\theta||_{2}^{2}$ is convex but lacks strict convexity.
 			\end{checkboxes}
 			
@@ -377,6 +386,7 @@ for row_idx in range(N):
 			
 			\begin{answer_box}[title=Your answer:,height=2cm,width=5cm]
 				% 答案区域
+				$\frac27 \approx 0.2857$
 			\end{answer_box}
 			
 			\begin{figure}[H]
@@ -396,10 +406,11 @@ for row_idx in range(N):
 			Identify which neighborhood size(s) $k$ guarantee correct prediction for this query sample under the $k$-NN method:
 			
 			\begin{checkboxes}
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				\choice $k = 1$
-				\choice $k = 5$
-				\choice $k = 9$
-				\choice $k = 12$
+				\CorrectChoice $k = 5$
+				\CorrectChoice $k = 9$
+				\CorrectChoice $k = 12$
 				\choice None of the above
 			\end{checkboxes}
 		\end{subquestions}
@@ -410,8 +421,9 @@ for row_idx in range(N):
 			\subquestion To achieve optimal test performance, the best strategy is to select $k$ by minimizing the error rate observed on the training data. 
 			
 			\begin{checkboxes}
+			\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				\choice True
-				\choice False
+				\CorrectChoice False
 			\end{checkboxes}
 			
 			\clearpage 
@@ -419,7 +431,8 @@ for row_idx in range(N):
 			\subquestion \sone An alternative approach divides your available training data into two parts: one for model fitting and another for validation. You then select hyperparameters that minimize validation error rather than training error. Does this validation-based selection strategy offer advantages over training-error-based selection?
 			
 			\begin{checkboxes}
-				\choice Yes, optimizing for validation performance is superior because minimizing training error can result in overfitting and poor generalization.
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+				\CorrectChoice Yes, optimizing for validation performance is superior because minimizing training error can result in overfitting and poor generalization.
 				\choice Yes, validation-based optimization ensures better test performance due to the guarantees provided by cross-validation.
 				\choice No, training error minimization is preferable because validation error reduction does not improve generalization and may cause overfitting.
 				\choice No, achieving the lowest possible training error is essential to guarantee optimal test set performance.
@@ -428,12 +441,14 @@ for row_idx in range(N):
 			\subquestion \sone A colleague proposes using the test data (rather than creating a separate validation partition from the training data) for hyperparameter tuning. Would you support this proposal? Provide justification in at most 3 sentences.
 			
 			\begin{checkboxes}
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				\choice Yes
-				\choice No
+				\CorrectChoice No
 			\end{checkboxes}
 			
 			\begin{answer_box}[title=Your answer:,height=5cm,width=15cm]
 				% 理由区域（例：No, test set should be unseen; using it for validation leads to overestimation of performance.）
+				No, because using the test set for hyperparameter tuning leaks information about the test distribution into the model selection process, leading to an overestimation of final performance and undermining the fairness of the test set as truly “unseen data”.
 			\end{answer_box}
 		\end{subquestions}
 		
