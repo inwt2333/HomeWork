@@ -18,7 +18,7 @@
 \usepackage{subcaption}            % 子图环境
 
 
-\title{\textbf{Solution}}
+\title{\textbf{Machine Learning Homework Solution}}
 \author{Yuecheng Han 524531910029}
 \date{\today}
 
@@ -468,20 +468,22 @@ for row_idx in range(N):
 		Which modification(s) ensure that the voting procedure produces a unique class prediction for x without ties? 
 		
 		\begin{checkboxes}
-			\choice Use k = 2 instead
-			\choice Flip a coin to randomly assign a label to $\xv$ (from the labels of its 4 closest points)
-			\choice Use $k = 3$ instead
-			\choice Use $k = 5$ instead
+			\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+			\choice Use $k = 2$ instead
+			\CorrectChoice Flip a coin to randomly assign a label to $\xv$ (from the labels of its 4 closest points)
+			\CorrectChoice Use $k = 3$ instead
+			\CorrectChoice Use $k = 5$ instead
 			\choice None of the above.
 		\end{checkboxes}
 		
 		\item[(4)] \sall Evaluate the following claims regarding $k$-NN methodology and select all accurate statements:
 		
 		\begin{checkboxes}
-			\choice Increasing $k$ typically results in more regular and less complex decision boundaries.
-			\choice Raising the neighborhood size $k$ helps mitigate the influence of noisy observations and anomalous data points.
+			\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+			\CorrectChoice Increasing $k$ typically results in more regular and less complex decision boundaries.
+			\CorrectChoice Raising the neighborhood size $k$ helps mitigate the influence of noisy observations and anomalous data points.
 			\choice Setting $k$ excessively high can lead to overfitting on the training data.
-			\choice Cross-validation provides a principled approach for determining an appropriate value of $k$.
+			\CorrectChoice Cross-validation provides a principled approach for determining an appropriate value of $k$.
 			\choice The $k$ value that achieves minimum validation error should always be avoided.
 			\choice None of the above.
 		\end{checkboxes}
@@ -510,6 +512,7 @@ for row_idx in range(N):
 			
 			\begin{answer_box}[title=Your answer:,height=2cm,width=5cm]
 				% 答案区域
+				$3$
 			\end{answer_box}
 			
 			\subquestion Your objective is to estimate Student 7's post-graduation income using $k$-NN regression, where the predicted salary equals the mean salary of the $k$ closest training samples. With $k=3$, compute your salary prediction for Student 7 in the same units as the table (thousands of dollars annually). \\
@@ -517,13 +520,15 @@ for row_idx in range(N):
 			
 			\begin{answer_box}[title=Your answer:,height=2cm,width=5cm]
 				% 答案区域
+				$\frac{130 + 85 + 2500}{3} = 905$
 			\end{answer_box}
 			
 			\subquestion \sall Assume the 6 students above represent merely a sample from your complete training corpus of 10,000 students. You fit a $k$-NN regression model with Euclidean distance metric, evaluating performance via mean squared error (MSE) of salary predictions on the training data. Analyze which of the following feature transformations \textbf{could} alter the training MSE:
 			
 			\begin{checkboxes}
-				\choice Normalizing only ``High School GPA" as a percentage of 4.0
-				\choice Normalizing only ``University GPA" as a percentage of 4.0
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+				\CorrectChoice Normalizing only ``High School GPA" as a percentage of 4.0
+				\CorrectChoice Normalizing only ``University GPA" as a percentage of 4.0
 				\choice Applying identical normalization (same scaling factor) to both High School GPA and University GPA
 				\choice None of the above.
 			\end{checkboxes}
@@ -572,18 +577,21 @@ for row_idx in range(N):
 			
 			\begin{answer_box}[title=Your answer:,height=2cm,width=5cm]
 				% 答案区域
+				$4$
 			\end{answer_box}
 			
 			\subquestion \sone Using $k=3$ neighbors, what class label would your $k$-NN model assign to query sample $\xv^{(7)}$?
 			\begin{checkboxes}
-				\choice $\hat{y}=+$
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+				\CorrectChoice $\hat{y}=+$
 				\choice $\hat{y}=-$
 				\choice $\hat{y}=?$
 			\end{checkboxes}
 			
 			\subquestion \sone With neighborhood size $k=5$, determine the predicted label for query sample $\xv^{(7)}$:
 			\begin{checkboxes}
-				\choice $\hat{y}=+$
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+				\CorrectChoice $\hat{y}=+$
 				\choice $\hat{y}=-$
 				\choice $\hat{y}=?$
 			\end{checkboxes}
@@ -592,6 +600,7 @@ for row_idx in range(N):
 			
 			\begin{answer_box}[title=Your answer:, height=5cm]
 				% 解释区域（例：No, pixels are binary; Euclidean distance overweights differences, Hamming is more appropriate for discrete data.）
+				No, because the pixel values are binary (0 or 1), the Hamming distance and Euclidean distance produce identical neighbor rankings, so the final k-NN prediction is unaffected. Moreover, Euclidean distance requires additional square root computations, making it slightly less efficient than Hamming distance.
 			\end{answer_box}
 		\end{subquestions}
 		
@@ -602,6 +611,7 @@ for row_idx in range(N):
 		
 		\begin{answer_box}[title=Your answer:,height=2cm,width=5cm]
 			% 答案区域（例：5*2*10=100）
+			$5 \times 2 \times 10 = 100$
 		\end{answer_box}
 	\end{enumerate}
 	\clearpage
@@ -629,6 +639,7 @@ for row_idx in range(N):
 			
 			\begin{answer_box}[title=Your Answer,height=2cm,width=5cm]
 				% 答案区域
+				$y = \frac{3 + 3 + 2 + 2 + 1}{5} = 2.2$
 			\end{answer_box}
 			
 			\clearpage
@@ -642,9 +653,10 @@ for row_idx in range(N):
 			\end{figure}
 			
 			\begin{checkboxes}
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				\choice A 
 				\choice B 
-				\choice C 
+				\CorrectChoice C 
 				\choice D 
 			\end{checkboxes}
 			
@@ -659,10 +671,11 @@ for row_idx in range(N):
 			\end{figure}
 			
 			\begin{checkboxes}
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				\choice A
 				\choice B
 				\choice C
-				\choice D
+				\CorrectChoice D
 			\end{checkboxes}
 		\end{subquestions}
 		
@@ -670,6 +683,7 @@ for row_idx in range(N):
 		
 		\begin{answer_box}[title=Your answer:,height=5cm]
 			% 解释区域
+			No, because the greedy algorithm makes locally optimal choices at each node without considering the global structure of the tree. This can lead to suboptimal splits that do not minimize overall training error for the entire depth-2 tree.
 		\end{answer_box}
 	\end{enumerate}	
 	
@@ -721,11 +735,15 @@ for row_idx in range(N):
 		\begin{minipage}[t]{0.25\textwidth}
 			\begin{answer_box}[title=$H(Y)$]
 				% 在此处填写答案
+				1 bit
 			\end{answer_box}
 		\end{minipage}
 		\begin{minipage}[t]{0.7\textwidth}
 			\begin{answer_box}[title=Work]
 				% 在此处展示计算过程
+				$P(Y = 0) = 4/8 = 0.5;$ \\
+				$P(Y = 1) = 4/8 = 0.5;$ \\
+				$H(Y) = -\sum P(Y) \log_2 P(Y) = -[0.5 \log_2 0.5 + 0.5 \log_2 0.5] = 1$ bit.
 			\end{answer_box}
 		\end{minipage}
 		
@@ -734,13 +752,24 @@ for row_idx in range(N):
 		\item[(2)] Calculate the mutual information \(I(Y; A)\) between target \(Y\) and feature \(A\), measured in bits. (Provide a single number rounded to four decimal places, e.g. 0.1234)
 		
 		\begin{minipage}[t]{0.25\textwidth}
-			\begin{answer_box}[title=$I(Y;A)$]
+			\begin{answer_box}[title=$I(Y;A)$,height=6cm]
 				% 在此处填写答案
+				0.0488 bits
 			\end{answer_box}
 		\end{minipage}
 		\begin{minipage}[t]{0.7\textwidth}
-			\begin{answer_box}[title=Work]
+			\begin{answer_box}[title=Work,height=6cm]
 				% 在此处展示计算过程
+				$P(Y=0|A=1)=\frac25;$\\
+				$P(Y=1|A=1)=\frac35=0.6;$\\
+				$H(Y|A=1)=-\sum P(Y|A) \log_2 P(Y|A) = -[\frac25 \log_2 \frac25 + \frac35 \log_2 \frac35];$ \\
+				$P(Y=0|A=0)=\frac23;$\\
+				$P(Y=1|A=0)=\frac13;$\\
+				$H(Y|A=0)=-\sum P(Y|A) \log_2 P(Y|A) = -[\frac23 \log_2 \frac23 + \frac13 \log_2 \frac13];$\\
+				$P(A=1)=\frac58;$\\
+				$P(A=0)=\frac38;$\\
+				$H(Y|A)=P(A=1)H(Y|A=1)+P(A=0)H(Y|A=0)=\frac58 H(Y|A=1)+\frac38 H(Y|A=0)$;\\
+				$I(Y;A) = H(Y) - H(Y|A) \approx 0.0488$ bits. \\
 			\end{answer_box}
 		\end{minipage}
 		
@@ -749,13 +778,27 @@ for row_idx in range(N):
 		\item[(3)] Determine the mutual information \(I(Y; B)\) between target \(Y\) and feature \(B\), in bits. (Provide a single number rounded to four decimal places, e.g. 0.1234)
 		
 		\begin{minipage}[t]{0.25\textwidth}
-			\begin{answer_box}[title=$I(Y;B)$]
+			\begin{answer_box}[title=$I(Y;B)$,height=10cm]
 				% 在此处填写答案
+				0.3113 bits
 			\end{answer_box}
 		\end{minipage}
 		\begin{minipage}[t]{0.7\textwidth}
-			\begin{answer_box}[title=Work]
+			\begin{answer_box}[title=Work,height=10cm]
 				% 在此处展示计算过程
+				$P(Y=0|B=0)=1;$\\
+				$H(Y|B=0)=-\sum P(Y|B) \log_2 P(Y|B) = -[1\log_2 1]=0;$\\
+				$P(Y=0|B=1)=\frac13;$\\
+				$P(Y=1|B=1)=\frac23;$\\
+				$H(Y|B=1)=-\sum P(Y|B) \log_2 P(Y|B) = -[\frac13 \log_2 \frac13 + \frac23 \log_2 \frac23];$\\
+				$P(Y=0|B=2)=\frac13;$\\
+				$P(Y=1|B=2)=\frac23;$\\
+				$H(Y|B=2)=-\sum P(Y|B) \log_2 P(Y|B) = -[\frac13 \log_2 \frac13 + \frac23 \log_2 \frac23];$\\
+				$P(B=0)=\frac28=\frac14;$\\
+				$P(B=1)=\frac38;$\\
+				$P(B=2)=\frac38;$\\
+				$H(Y|B)=P(B=0)H(Y|B=0)+P(B=1)H(Y|B=1)+P(B=2)H(Y|B=2)=\frac14 \cdot 0 + \frac38 H(Y|B=1) + \frac38 H(Y|B=2)$;\\
+				$I(Y;B) = H(Y) - H(Y|B) \approx 0.3113$ bits. \\
 			\end{answer_box}
 		\end{minipage}
 		
@@ -764,13 +807,23 @@ for row_idx in range(N):
 		\item[(4)] Evaluate the mutual information \(I(Y; C)\) between target \(Y\) and feature \(C\), measured in bits. (Report a single number rounded to four decimal places, e.g. 0.1234)
 		
 		\begin{minipage}[t]{0.25\textwidth}
-			\begin{answer_box}[title=$I(Y;C)$]
+			\begin{answer_box}[title=$I(Y;C)$,height=6cm]
 				% 在此处填写答案
+				0.5488 bits
 			\end{answer_box}
 		\end{minipage}
 		\begin{minipage}[t]{0.7\textwidth}
-			\begin{answer_box}[title=Work]
+			\begin{answer_box}[title=Work,height=6cm]
 				% 在此处展示计算过程
+				$P(Y=0|C=0)=\frac15;$\\
+				$P(Y=1|C=0)=\frac45;$\\
+				$H(Y|C=0)=-\sum P(Y|C) \log_2 P(Y|C) = -[\frac15 \log_2 \frac15 + \frac45 \log_2 \frac45];$\\
+				$P(Y=0|C=1)=1;$\\
+				$H(Y|C=1)=-\sum P(Y|C) \log_2 P(Y|C) = -[1\log_2 1]=0;$\\
+				$P(C=0)=\frac58;$\\
+				$P(C=1)=\frac38;$\\
+				$H(Y|C)=P(C=0)H(Y|C=0)+P(C=1)H(Y|C=1)=\frac58 H(Y|C=0)+\frac38 \cdot 0$;\\
+				$I(Y;C) = H(Y) - H(Y|C) \approx 0.5488$ bits. \\
 			\end{answer_box}
 		\end{minipage}
 		
@@ -779,9 +832,10 @@ for row_idx in range(N):
 		\item[(5)] Select one: Using the dataset provided, identify which feature ($A$, $B$, or $C$) would be selected for the root split by a decision tree learner employing mutual information as its selection criterion.
 		
 		\begin{checkboxes}
+			\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 			\choice $A$
 			\choice $B$
-			\choice $C$
+			\CorrectChoice $C$
 		\end{checkboxes}
 		
 		
@@ -789,8 +843,9 @@ for row_idx in range(N):
 		\item[(6)] Select one: Following the initial partition, which feature would the tree learning algorithm choose for the subsequent split, assuming mutual information guides feature selection? (\emph{Hint:} Observe that this question presumes \emph{exactly one} feature will be selected second.)
 		
 		\begin{checkboxes}
+			\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 			\choice $A$
-			\choice $B$
+			\CorrectChoice $B$
 			\choice $C$
 		\end{checkboxes}
 		
@@ -801,6 +856,7 @@ for row_idx in range(N):
 		\begin{minipage}[t]{0.25\textwidth}
 			\begin{answer_box}[title=Depth]
 				% 在此处填写答案
+				$2$
 			\end{answer_box}
 		\end{minipage}
 		
@@ -808,11 +864,11 @@ for row_idx in range(N):
 		% 问题8：绘制决策树
 		\item[(8)] Construct and illustrate the complete decision tree learned from the dataset above, utilizing mutual information for split selection and growing until zero training error is achieved. Mark each internal (non-terminal) node with its splitting feature (e.g. $B$), annotate edges with the corresponding feature values (e.g. 1 or 0), and label terminal nodes with their predicted class (e.g. $Y=0$). You may insert an image file using the provided commented \LaTeX{} code, substituting your filename for \textit{DecTree.png}. Hand-drawn diagrams are acceptable. For programmatic visualization, you may optionally use libraries such as \texttt{matplotlib} or \texttt{graphviz}.
 		
-		\begin{answer_box}[title=Decision Tree]
+		\begin{answer_box}[title=Decision Tree, height=9cm]
 			% 插入图片示例（取消注释并替换文件名即可）
-			% \begin{center}
-				% \includegraphics[width=0.8\linewidth]{DecTree.png}
-				% \end{center}
+			\begin{center}
+			\includegraphics[width=0.8\linewidth]{DecTree.png}
+			\end{center}
 		\end{answer_box}
 		
 		
@@ -841,6 +897,7 @@ for row_idx in range(N):
 		
 		\begin{answer_box}[title=Predicted Labels]
 			% 在此处填写预测结果（例：1,0,1,0,0,1）
+			1,1,0,1,0,0
 		\end{answer_box}
 		
 	\end{questions}
@@ -880,10 +937,15 @@ for row_idx in range(N):
 			
 			\begin{your_solution}[title=$J(\thetav)$,height=2cm,width=3cm]
 				% YOUR ANSWER 
+				$0.7975$
 			\end{your_solution}
 			
 			\begin{your_solution}[title=Work,height=6cm]
 				% YOUR ANSWER
+				$J(\thetav) = -\frac{1}{N} \sum_{i=1}^{N} \left[ y^{(i)} \log(\sigma(\thetav^T x^{(i)})) + (1 - y^{(i)}) \log(1 - \sigma(\thetav^T x^{(i)})) \right]$\\
+				$=\frac{1}{N}\sum_{i=1}^N-y^{(i)}(\thetav^T \xv^{(i)})+\log(1+\exp(\thetav^T \xv^{(i)}))$\\
+				$=\frac14\left[(-0+\log(1+e^1))+(-2+\log(1+e^2))+(-3+\log(1+e^3))+(-0+\log(1+e^{1.5}))\right]$\\
+				$\approx 0.7975$
 			\end{your_solution}
 			
 			\pagebreak
@@ -892,16 +954,30 @@ for row_idx in range(N):
 			
 			\begin{your_solution}[title=$\partial J(\thetav)/\partial \theta_1$,height=1.8cm,width=5.2cm]
 				% YOUR ANSWER 
+				$0.2044$
 			\end{your_solution}
 			\begin{your_solution}[title=$\partial J(\thetav)/\partial \theta_2$,height=1.8cm,width=5.2cm]
 				% YOUR ANSWER 
+				$-0.0417$
 			\end{your_solution}
 			\begin{your_solution}[title=$\partial J(\thetav)/\partial \theta_3$,height=1.8cm,width=5.2cm]
 				% YOUR ANSWER 
+				$0.1709$
 			\end{your_solution}
 			
 			\begin{your_solution}[title=Work,height=18cm]
 				% YOUR ANSWER
+				$\frac{\partial J}{\partial\theta_j}=\frac{1}{N}\sum_{i=1}^N(\sigma(\thetav^Tx^{(i)})-y^{(i)})x_j^{(i)}$\\
+				where $\sigma(z)=\frac{1}{1+\exp(-z)}$\\
+				For $\theta_1$: \\
+				$\frac{\partial J}{\partial \theta_1} = \frac{1}{4}[(\sigma(1.5\times0+2\times0+1\times1)-0)\times0 + (\sigma(1.5\times0+2\times1+1\times0)-1)\times0 + (\sigma(1.5\times0+2\times1+1\times1)-1)\times0 + (\sigma(1.5\times1+2\times0+1\times0)-0)\times1]$\\
+				$= \frac{1}{4}[0 + 0 + 0 + \sigma(1.5)] \approx 0.2044$\\
+				For $\theta_2$: \\
+				$\frac{\partial J}{\partial \theta_2} = \frac{1}{4}[(\sigma(1.5\times0+2\times0+1\times1)-0)\times0 + (\sigma(1.5\times0+2\times1+1\times0)-1)\times1 + (\sigma(1.5\times0+2\times1+1\times1)-1)\times1 + (\sigma(1.5\times1+2\times0+1\times0)-0)\times0]$\\
+				$= \frac{1}{4}[0 + (\sigma(2)-1) + (\sigma(3)-1) + 0] \approx -0.0417$\\
+				For $\theta_3$: \\
+				$\frac{\partial J}{\partial \theta_3} = \frac{1}{4}[(\sigma(1.5\times0+2\times0+1\times1)-0)\times1 + (\sigma(1.5\times0+2\times1+1\times0)-1)\times0 + (\sigma(1.5\times0+2\times1+1\times1)-1)\times1 + (\sigma(1.5\times1+2\times0+1\times0)-0)\times0]$\\
+				$= \frac{1}{4}[(\sigma(1)-0)\times1 + (\sigma(3)-1) + 0] \approx 0.1709$\\	
 			\end{your_solution}
 			
 			
@@ -911,16 +987,22 @@ for row_idx in range(N):
 			
 			\begin{your_solution}[title=$\theta_1$,height=1.8cm,width=5.2cm]
 				% YOUR ANSWER 
+				$1.2956$
 			\end{your_solution}
 			\begin{your_solution}[title=$\theta_2$,height=1.8cm,width=5.2cm]
 				% YOUR ANSWER 
+				$2.0417$
 			\end{your_solution}
 			\begin{your_solution}[title=$\theta_3$,height=1.8cm,width=5.2cm]
 				% YOUR ANSWER 
+				$0.8291$
 			\end{your_solution}
 			
 			\begin{your_solution}[title=Work, height=6cm]
 				% YOUR ANSWER 
+				$\theta_1 \leftarrow 1.5 - 1 \times 0.2044 \approx 1.2956$\\
+				$\theta_2 \leftarrow 2 - 1 \times (-0.0417) \approx 2.0417$\\
+				$\theta_3 \leftarrow 1 - 1 \times 0.1709 \approx 0.8291$\\
 			\end{your_solution}
 			
 			
@@ -934,8 +1016,9 @@ for row_idx in range(N):
 			{%
 				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				\begin{checkboxes}
-					\choice The binary logistic regression framework accommodates both real-valued and discrete binary input features.
-					\choice Without feature transformations, binary logistic regression produces a linear separating hyperplane in the feature space.
+					\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
+					\CorrectChoice The binary logistic regression framework accommodates both real-valued and discrete binary input features.
+					\CorrectChoice Without feature transformations, binary logistic regression produces a linear separating hyperplane in the feature space.
 					\choice The logistic sigmoid activation function exhibits convex geometry.
 					\choice None of the above.
 				\end{checkboxes}
@@ -949,11 +1032,12 @@ for row_idx in range(N):
 			{%
 				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				\begin{checkboxes}
+					\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 					\choice The optimization procedure may become trapped at suboptimal local minima when applied to small-scale datasets.
 					\choice Convergence to the global optimum is guaranteed irrespective of the chosen step size.
 					\choice The optimization procedure may become trapped at suboptimal local minima when applied to large-scale datasets.
 					\choice Convergence to the global optimum is guaranteed irrespective of the chosen batch size.
-					\choice None of the above.
+					\CorrectChoice None of the above.
 				\end{checkboxes}
 			}
 			
@@ -969,13 +1053,14 @@ for row_idx in range(N):
 			
 			\begin{checkboxes}
 				% YOUR ANSWER
+				\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 				\choice 
 				$\theta_k\leftarrow \theta_k + \eta \frac{\partial f(\thetav)}{\partial \theta_k}$ where 
 				$ \frac{\partial f(\thetav)}{\partial \theta_k}=\frac{1}{N}\sum_{i=1}^N \left[x^{(i)}_k\left(y^{(i)} -\frac{\exp(\thetav^T \xv^{(i)})}{1+\exp(\thetav^T \xv^{(i)})} \right)\right]+\lambda \theta_k$
 				\choice 
 				$\theta_k\leftarrow \theta_k + \eta \frac{\partial f(\thetav)}{\partial \theta_k}$ where 
 				$ \frac{\partial f(\thetav)}{\partial \theta_k}=\frac{1}{N}\sum_{i=1}^N \left[x^{(i)}_k\left(-y^{(i)} +\frac{\exp(\thetav^T \xv^{(i)})}{1+\exp(\thetav^T \xv^{(i)})} \right)\right]-\lambda \theta_k$
-				\choice 
+				\CorrectChoice
 				$\theta_k\leftarrow \theta_k - \eta \frac{\partial f(\thetav)}{\partial \theta_k}$ where 
 				$ \frac{\partial f(\thetav)}{\partial \theta_k}=\frac{1}{N}\sum_{i=1}^N \left[x^{(i)}_k\left(-y^{(i)} +\frac{\exp(\thetav^T \xv^{(i)})}{1+\exp(\thetav^T \xv^{(i)})} \right)\right]+\lambda \theta_k$
 				\choice
@@ -1013,6 +1098,8 @@ for row_idx in range(N):
 				
 				\begin{your_solution}[height=5cm]
 					% YOUR ANSWER 
+					Choice (b) is correct. \\
+					Since feature $\xv_3$ perfectly separates the classes, logistic regression will attempt to push the decision boundary towards infinity to maximize the likelihood. As a result, the predicted probabilities will approach 0 for $\xv_3 < 1$ and 1 for $\xv_3 \geq 1$, leading to a step function-like behavior as shown in plot (b). Plot (a) would imply that the model is not fully utilizing the perfect separation provided by $\xv_3$.
 				\end{your_solution}
 				
 				\item \sone   
@@ -1030,9 +1117,10 @@ for row_idx in range(N):
 				{%
 					
 					\begin{checkboxes}
+						\checkboxchar{$\Box$} \checkedchar{$\blacksquare$}
 						\choice $\ell_2$ regularization constrains parameter growth by normalizing the weight vector to unit norm.
 						\choice $\ell_2$ regularization prevents parameter divergence by setting certain weights exactly to zero, effectively performing feature elimination. 
-						\choice $\ell_2$ regularization controls parameter magnitude by shrinking weight values toward (but not necessarily to) zero, diminishing feature influence without complete removal. 
+						\CorrectChoice $\ell_2$ regularization controls parameter magnitude by shrinking weight values toward (but not necessarily to) zero, diminishing feature influence without complete removal. 
 						\choice None of the above.
 					\end{checkboxes}
 				}
@@ -1060,9 +1148,72 @@ for row_idx in range(N):
 			\mathbf{x} = \begin{bmatrix} x_{1} \\ x_{2} \end{bmatrix} \quad \text{and} \quad \mathbf{w} = \begin{bmatrix} w_{1} \\ w_{2} \end{bmatrix}
 			\]
 			with $w_{0}$ representing the offset parameter. Visualize this hyperplane $\mathbf{w}^{T} \mathbf{x} + w_{0} = 0$ together with all data points and the direction vector $\mathbf{w}$ originating from the centroid.
-			
+			\begin{your_solution}[title=Principal Component Equation, height=12cm]
+				Compute the overall centroid of all samples:
+				\[
+				\bar{\mathbf{x}} = \frac{1}{6}\sum_{i=1}^{6} \mathbf{x}_i = \frac{1}{6} 
+				\begin{bmatrix} 2+2+2+4+5+6 \\ 1+2+3+3+3+4 \end{bmatrix} = \begin{bmatrix} 3.5000 \\ 2.6667 \end{bmatrix}.
+				\]
+
+					Center the data by subtracting the centroid and compute the covariance matrix:
+					\[
+					\Sigma = \frac{1}{6} \sum_{i=1}^{6} (\mathbf{x}_i - \bar{\mathbf{x}})(\mathbf{x}_i - \bar{\mathbf{x}})^T
+					= \begin{bmatrix} 2.5833 & 1.1667 \\ 1.1667 & 0.8889 \end{bmatrix}.
+					\]
+
+					Perform eigen-decomposition to obtain the principal component direction:
+					\[
+					\mathbf{w} = \begin{bmatrix} 0.9067 \\ 0.4218 \end{bmatrix}.
+					\]
+
+					The line passing through the centroid along this direction is
+					\[
+					\mathbf{w}^T (\mathbf{x} - \bar{\mathbf{x}}) = 0 \implies \mathbf{w}^T \mathbf{x} + w_0 = 0,
+					\]
+					with
+				\[
+				w_0 = - \mathbf{w}^T \bar{\mathbf{x}} \approx -4.4236.
+				\]
+
+				Hence, the principal component line equation is
+				\[
+				\boxed{0.9067 x_1 + 0.4218 x_2 - 4.4236 = 0}.
+				\]
+
+			\end{your_solution}
 			\item[(b)] Transform all observations onto the principal component axis, then reconstruct them back to the original space. Visualize the resulting reconstructed coordinates.
 			
+
+			\begin{your_solution}[title=Projection and Reconstruction, height=9cm]
+			Project each sample onto the principal component:
+			\[
+			z_i = \mathbf{w}^T (\mathbf{x}_i - \bar{\mathbf{x}}), \quad \mathbf{w} = \begin{bmatrix}0.9067 \\ 0.4218\end{bmatrix}, \quad \bar{\mathbf{x}} = \begin{bmatrix}3.5000 \\ 2.6667\end{bmatrix}
+			\]
+
+			Computed projections:
+			\[
+			z = [-2.0631, -1.6413, -1.2195, 0.5940, 1.5007, 2.8292]^T
+			\]
+
+			Reconstruct samples in the original space:
+			\[
+			\hat{\mathbf{x}}_i = \bar{\mathbf{x}} + z_i \mathbf{w}
+			\]
+
+			Reconstructed coordinates:
+			\[
+			\hat{\mathbf{x}}_1 = [1.6300, 1.7967], \quad
+			\hat{\mathbf{x}}_2 = [2.0119, 1.9747], \quad
+			\hat{\mathbf{x}}_3 = [2.3957, 2.1518],
+			\]
+			\[
+			\hat{\mathbf{x}}_4 = [4.0385, 2.9175], \quad
+			\hat{\mathbf{x}}_5 = [4.8602, 3.2994], \quad
+			\hat{\mathbf{x}}_6 = [6.0654, 3.8594]
+			\]
+
+			These reconstructed points lie along the principal component direction through the centroid.
+			\end{your_solution}
 			\item[(c)] Calculate the aggregate mean squared error (MSE) quantifying reconstruction loss across all samples (measuring discrepancy between original and reconstructed coordinates).
 			
 			\item[(d)] Compute the Fisher discriminant ratio for this projection, formulated as 
