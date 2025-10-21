@@ -16,6 +16,7 @@
 \usepackage{hyperref}              % 超链接（最后加载，避免冲突）
 \usepackage{listings}              % 代码高亮
 \usepackage{subcaption}            % 子图环境
+\usepackage{pdfpages}			   % 插入PDF文件
 
 
 \title{\textbf{Machine Learning Homework Solution}}
@@ -107,8 +108,6 @@
 
 
 \begin{document}
-	\maketitle
-	
 	\section*{Problem 1 : Coding}
 	\label{sec:pseudocode}
 	
@@ -1148,72 +1147,9 @@ for row_idx in range(N):
 			\mathbf{x} = \begin{bmatrix} x_{1} \\ x_{2} \end{bmatrix} \quad \text{and} \quad \mathbf{w} = \begin{bmatrix} w_{1} \\ w_{2} \end{bmatrix}
 			\]
 			with $w_{0}$ representing the offset parameter. Visualize this hyperplane $\mathbf{w}^{T} \mathbf{x} + w_{0} = 0$ together with all data points and the direction vector $\mathbf{w}$ originating from the centroid.
-			\begin{your_solution}[title=Principal Component Equation, height=12cm]
-				Compute the overall centroid of all samples:
-				\[
-				\bar{\mathbf{x}} = \frac{1}{6}\sum_{i=1}^{6} \mathbf{x}_i = \frac{1}{6} 
-				\begin{bmatrix} 2+2+2+4+5+6 \\ 1+2+3+3+3+4 \end{bmatrix} = \begin{bmatrix} 3.5000 \\ 2.6667 \end{bmatrix}.
-				\]
 
-					Center the data by subtracting the centroid and compute the covariance matrix:
-					\[
-					\Sigma = \frac{1}{6} \sum_{i=1}^{6} (\mathbf{x}_i - \bar{\mathbf{x}})(\mathbf{x}_i - \bar{\mathbf{x}})^T
-					= \begin{bmatrix} 2.5833 & 1.1667 \\ 1.1667 & 0.8889 \end{bmatrix}.
-					\]
-
-					Perform eigen-decomposition to obtain the principal component direction:
-					\[
-					\mathbf{w} = \begin{bmatrix} 0.9067 \\ 0.4218 \end{bmatrix}.
-					\]
-
-					The line passing through the centroid along this direction is
-					\[
-					\mathbf{w}^T (\mathbf{x} - \bar{\mathbf{x}}) = 0 \implies \mathbf{w}^T \mathbf{x} + w_0 = 0,
-					\]
-					with
-				\[
-				w_0 = - \mathbf{w}^T \bar{\mathbf{x}} \approx -4.4236.
-				\]
-
-				Hence, the principal component line equation is
-				\[
-				\boxed{0.9067 x_1 + 0.4218 x_2 - 4.4236 = 0}.
-				\]
-
-			\end{your_solution}
 			\item[(b)] Transform all observations onto the principal component axis, then reconstruct them back to the original space. Visualize the resulting reconstructed coordinates.
 			
-
-			\begin{your_solution}[title=Projection and Reconstruction, height=9cm]
-			Project each sample onto the principal component:
-			\[
-			z_i = \mathbf{w}^T (\mathbf{x}_i - \bar{\mathbf{x}}), \quad \mathbf{w} = \begin{bmatrix}0.9067 \\ 0.4218\end{bmatrix}, \quad \bar{\mathbf{x}} = \begin{bmatrix}3.5000 \\ 2.6667\end{bmatrix}
-			\]
-
-			Computed projections:
-			\[
-			z = [-2.0631, -1.6413, -1.2195, 0.5940, 1.5007, 2.8292]^T
-			\]
-
-			Reconstruct samples in the original space:
-			\[
-			\hat{\mathbf{x}}_i = \bar{\mathbf{x}} + z_i \mathbf{w}
-			\]
-
-			Reconstructed coordinates:
-			\[
-			\hat{\mathbf{x}}_1 = [1.6300, 1.7967], \quad
-			\hat{\mathbf{x}}_2 = [2.0119, 1.9747], \quad
-			\hat{\mathbf{x}}_3 = [2.3957, 2.1518],
-			\]
-			\[
-			\hat{\mathbf{x}}_4 = [4.0385, 2.9175], \quad
-			\hat{\mathbf{x}}_5 = [4.8602, 3.2994], \quad
-			\hat{\mathbf{x}}_6 = [6.0654, 3.8594]
-			\]
-
-			These reconstructed points lie along the principal component direction through the centroid.
-			\end{your_solution}
 			\item[(c)] Calculate the aggregate mean squared error (MSE) quantifying reconstruction loss across all samples (measuring discrepancy between original and reconstructed coordinates).
 			
 			\item[(d)] Compute the Fisher discriminant ratio for this projection, formulated as 
@@ -1222,6 +1158,8 @@ for row_idx in range(N):
 			\]
 			where $m_{i}$ represents the centroid of class $i$ samples after projection, and $\sigma_{i}^{2}$ denotes the corresponding variance. Evaluate $FR$ using the one-dimensional projected coordinates (not the two-dimensional reconstructions).
 		\end{enumerate}
+
+		\includepdf[pages=-, scale=0.9]{Problem7_1.pdf}
 		
 		\item[(2)] An alternative perspective on PCA views it as identifying the low-dimensional subspace that minimizes reconstruction error from dimensionality reduction. Remarkably, the variance-maximization and error-minimization objectives yield identical PCA solutions.
 		
@@ -1232,10 +1170,68 @@ for row_idx in range(N):
 			\]
 			where $d_{i}$ quantifies the reconstruction discrepancy for $\mathbf{x}_{i}$, measured as the Euclidean distance from $\mathbf{x}_{i}$ to its orthogonal projection onto the subspace. Impose unit length constraint $\|\mathbf{w}\|=1$ since only direction matters. Express your objective solely using $\mathbf{w}$ and $\mathbf{x}_{i}$, eliminating $d_{i}$.
 			
+			\begin{your_solution}
+				The dataset \(\{\mathbf{x}_1,\dots,\mathbf{x}_n\}\subset\mathbb{R}^d\) has been mean-centered, i.e. \(\sum_{i=1}^n\mathbf{x}_i=\mathbf{0}\). 
+				
+				We seek a unit-length direction vector \(\mathbf{w}\) (i.e. \(\|\mathbf{w}\|_2=1\)) that defines a one-dimensional linear subspace onto which we orthogonally project each \(\mathbf{x}_i\). 
+				
+				The orthogonal projection of \(\mathbf{x}_i\) onto span\(\{\mathbf w\}\) is \((\mathbf w^\top \mathbf x_i)\mathbf w\). 
+				
+				The squared reconstruction error for \(\mathbf x_i\) is therefore
+				\[
+				d_i^2 \;=\; \big\| \mathbf{x}_i - (\mathbf w^\top \mathbf{x}_i)\mathbf w\big\|_2^2.
+				\]
+				The total squared reconstruction loss over all samples is \(\sum_{i=1}^n d_i^2\). 
+				
+				Thus the constrained optimization problem (with the unit-norm constraint) is
+				\[
+				\boxed{ \;\min_{\mathbf w}\; \sum_{i=1}^n \big\| \mathbf{x}_i - (\mathbf w^\top \mathbf{x}_i)\mathbf w\big\|_2^2
+				\quad\text{s.t.}\quad \|\mathbf w\|_2 = 1 \; }.
+				\]
+
+			\end{your_solution}
 			\item[(b)] Using your formulation from (a), demonstrate that this minimization problem coincides with standard PCA when recognizing: 
 			\[
 			\Sigma = \sum_{i} \mathbf{x}_{i} \mathbf{x}_{i}^{T}
 			\]
+
+			\begin{your_solution}
+				We'll prove that the above minimization is equivalent to maximizing \(\mathbf w^\top \Sigma \mathbf w\) where \(\Sigma=\sum_{i=1}^n \mathbf x_i\mathbf x_i^\top\).
+
+				Start by expanding each term:
+				\[
+				\begin{aligned}
+				\big\| \mathbf{x}_i - (\mathbf w^\top \mathbf{x}_i)\mathbf w\big\|_2^2
+				&= (\mathbf{x}_i - (\mathbf w^\top \mathbf{x}_i)\mathbf w)^\top(\mathbf{x}_i - (\mathbf w^\top \mathbf{x}_i)\mathbf w) \\
+				&= \left[\mathbf{x}_i^\top - w^\top(\mathbf{x}_i^\top \mathbf w)\right]\left[\mathbf{x}_i - (\mathbf w^\top \mathbf{x}_i)\mathbf w\right] \\
+				&= \mathbf{x}_i^\top \mathbf{x}_i - 2(\mathbf w^\top \mathbf{x}_i)(\mathbf w^\top \mathbf{x}_i) + (\mathbf w^\top \mathbf{x}_i)^2(\mathbf w^\top \mathbf w) \\
+				&= \|\mathbf{x}_i\|_2^2 - (\mathbf w^\top \mathbf{x}_i)^2,
+				\end{aligned}
+				\]
+				where in the second line we used \(\mathbf w^\top\mathbf w = \|\mathbf{w}\|_2^2=1\). 
+				
+				Summing over \(i\) yields
+				\[
+				\sum_{i=1}^n d_i^2 \;=\; \sum_{i=1}^n \|\mathbf{x}_i\|_2^2 \;-\; \sum_{i=1}^n (\mathbf w^\top \mathbf{x}_i)^2.
+				\]
+				The first term \(\sum_i \|\mathbf{x}_i\|_2^2\) does not depend on \(\mathbf w\), so minimizing the left-hand side over unit \(\mathbf w\) is equivalent to maximizing the second term:
+				\[
+				\max_{\|\mathbf w\|=1} \; \sum_{i=1}^n (\mathbf w^\top \mathbf{x}_i)^2.
+				\]
+				Rewrite the objective in matrix form:
+				\[
+				\sum_{i=1}^n (\mathbf w^\top \mathbf{x}_i)^2
+				= \sum_{i=1}^n \mathbf w^\top (\mathbf{x}_i\mathbf{x}_i^\top)\mathbf w
+				= \mathbf w^\top \left(\sum_{i=1}^n \mathbf{x}_i\mathbf{x}_i^\top\right)\mathbf w
+				= \mathbf w^\top \Sigma \mathbf w.
+				\]
+				Therefore the constrained minimization of total reconstruction error is equivalent to the Rayleigh quotient maximization
+				\[
+				\max_{\|\mathbf w\|_2 = 1} \; \mathbf w^\top \Sigma \mathbf w.
+				\]
+				By classical results, the maximizer is the eigenvector of \(\Sigma\) associated with the largest eigenvalue. This eigenvector is precisely the first principal component obtained by standard PCA (using \(\Sigma\) as the covariance matrix). Hence the reconstruction-error minimization formulation yields the same principal direction as the variance-maximization PCA formulation.
+
+			\end{your_solution}
 		\end{enumerate}
 		
 		
