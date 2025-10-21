@@ -167,7 +167,7 @@
     \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
     % Document parameters
     % Document title
-    \title{Problem7\_1}
+    \title{Problem7\_3}
     
     
     
@@ -387,17 +387,15 @@
     
 
 \begin{document}
-    
-    \maketitle
-    
-    
 
-    
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{1}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
 \PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
 \PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{time}
+\PY{k+kn}{from} \PY{n+nn}{torchvision} \PY{k+kn}{import} \PY{n}{datasets}
+\PY{k+kn}{from} \PY{n+nn}{torchvision}\PY{n+nn}{.}\PY{n+nn}{transforms} \PY{k+kn}{import} \PY{n}{ToTensor}
 \end{Verbatim}
 \end{tcolorbox}
 
@@ -407,151 +405,140 @@
 \item
 \end{enumerate}
 
+Data loading and preprocessing:
+
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{2}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{c1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
-               \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{]}\PY{p}{,}
-               \PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
-\PY{n}{c2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}
-               \PY{p}{[}\PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{]}\PY{p}{,}
-               \PY{p}{[}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n+nb}{float}\PY{p}{)}
-\PY{n}{X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vstack}\PY{p}{(}\PY{p}{(}\PY{n}{c1}\PY{p}{,} \PY{n}{c2}\PY{p}{)}\PY{p}{)}
-\PY{n}{X}
+\PY{c+c1}{\PYZsh{} Download MNIST dataset}
+\PY{n}{mnist\PYZus{}train} \PY{o}{=} \PY{n}{datasets}\PY{o}{.}\PY{n}{MNIST}\PY{p}{(}\PY{n}{root}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{./data}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{train}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{download}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{transform}\PY{o}{=}\PY{n}{ToTensor}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Convert to a numpy array and flatten}
+\PY{n}{x\PYZus{}train\PYZus{}flat} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{img}\PY{o}{.}\PY{n}{numpy}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{)} \PY{k}{for} \PY{n}{img}\PY{p}{,} \PY{n}{label} \PY{o+ow}{in} \PY{n}{mnist\PYZus{}train}\PY{p}{]}\PY{p}{,} \PY{n}{dtype}\PY{o}{=}\PY{n}{np}\PY{o}{.}\PY{n}{float64}\PY{p}{)}
+\PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{label} \PY{k}{for} \PY{n}{img}\PY{p}{,} \PY{n}{label} \PY{o+ow}{in} \PY{n}{mnist\PYZus{}train}\PY{p}{]}\PY{p}{)}
+\PY{c+c1}{\PYZsh{} Select the first 1000 images in each class}
+\PY{n}{x\PYZus{}train\PYZus{}flat} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vstack}\PY{p}{(}\PY{p}{[}\PY{n}{x\PYZus{}train\PYZus{}flat}\PY{p}{[}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{n}{i}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{1000}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+\PY{n}{y\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{hstack}\PY{p}{(}\PY{p}{[}\PY{n}{y\PYZus{}train}\PY{p}{[}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{n}{i}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{1000}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}\PY{p}{]}\PY{p}{)}
+
+\PY{n}{x\PYZus{}train\PYZus{}flat}\PY{o}{.}\PY{n}{shape}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{o}{.}\PY{n}{shape}
 \end{Verbatim}
 \end{tcolorbox}
 
             \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
 \prompt{Out}{outcolor}{2}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-array([[2., 1.],
-       [2., 2.],
-       [2., 3.],
-       [4., 3.],
-       [5., 3.],
-       [6., 4.]])
+((10000, 784), (10000,))
 \end{Verbatim}
 \end{tcolorbox}
         
-    Compute the covariance matrix:
+    Visualize the average digit-1 template:
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
 \prompt{In}{incolor}{3}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{cov\PYZus{}matrix} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{cov}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{T}\PY{p}{)}
-\PY{n}{cov\PYZus{}matrix}
-\end{Verbatim}
-\end{tcolorbox}
+\PY{n}{digit1\PYZus{}images} \PY{o}{=} \PY{n}{x\PYZus{}train\PYZus{}flat}\PY{p}{[}\PY{n}{y\PYZus{}train} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{]}
+\PY{n}{digit1\PYZus{}mean} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{digit1\PYZus{}images}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
 
-            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
-\prompt{Out}{outcolor}{3}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-array([[3.1       , 1.4       ],
-       [1.4       , 1.06666667]])
-\end{Verbatim}
-\end{tcolorbox}
-        
-    Compute eigenvalues and eigenvectors:
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{4}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{eigvals}\PY{p}{,} \PY{n}{eigvecs} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{eig}\PY{p}{(}\PY{n}{cov\PYZus{}matrix}\PY{p}{)}
-\PY{n}{eigvals}\PY{p}{,} \PY{n}{eigvecs}
-\end{Verbatim}
-\end{tcolorbox}
-
-            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
-\prompt{Out}{outcolor}{4}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-(array([3.81353884, 0.35312782]),
- array([[ 0.89095421, -0.45409317],
-        [ 0.45409317,  0.89095421]]))
-\end{Verbatim}
-\end{tcolorbox}
-        
-    Select the eigenvector corresponding to the largest eigenvalue
-(principal direction):
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{5}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{max\PYZus{}index} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argmax}\PY{p}{(}\PY{n}{eigvals}\PY{p}{)}
-\PY{n}{principal\PYZus{}direction} \PY{o}{=} \PY{n}{eigvecs}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{max\PYZus{}index}\PY{p}{]}
-\PY{n}{principal\PYZus{}direction} \PY{o}{=} \PY{n}{principal\PYZus{}direction} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{principal\PYZus{}direction}\PY{p}{)}
-\PY{n}{max\PYZus{}index}\PY{p}{,} \PY{n}{principal\PYZus{}direction}
-\end{Verbatim}
-\end{tcolorbox}
-
-            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
-\prompt{Out}{outcolor}{5}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-(0, array([0.89095421, 0.45409317]))
-\end{Verbatim}
-\end{tcolorbox}
-        
-    Compute the line equation through the centroid:
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{6}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{c+c1}{\PYZsh{} Equation form: w\PYZca{}T x + w0 = 0, where w0 = \PYZhy{}w\PYZca{}T * centroid}
-\PY{n}{centroid} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
-\PY{n}{w0} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{np}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{principal\PYZus{}direction}\PY{p}{,} \PY{n}{centroid}\PY{p}{)}
-\PY{n}{w0}
-\end{Verbatim}
-\end{tcolorbox}
-
-            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
-\prompt{Out}{outcolor}{6}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
--4.329254830199028
-\end{Verbatim}
-\end{tcolorbox}
-        
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{7}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Linear equation: }\PY{l+s+si}{\PYZob{}}\PY{n}{principal\PYZus{}direction}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ * x1 + }\PY{l+s+si}{\PYZob{}}\PY{n}{principal\PYZus{}direction}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{ * x2 + (}\PY{l+s+si}{\PYZob{}}\PY{n}{w0}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{) = 0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-
-Linear equation: 0.8910 * x1 + 0.4541 * x2 + (-4.3293) = 0
-    \end{Verbatim}
-
-    Visualization:
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{8}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,} \PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
-\PY{c+c1}{\PYZsh{} Plot data points of both classes}
-\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{c1}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{c1}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{blue}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Class 1}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{c2}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{c2}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{red}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Class 2}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{c+c1}{\PYZsh{} Plot centroid}
-\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{o}{*}\PY{n}{centroid}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Centroid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{c+c1}{\PYZsh{} Plot the principal direction vector}
-\PY{n}{plt}\PY{o}{.}\PY{n}{quiver}\PY{p}{(}\PY{n}{centroid}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{centroid}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{principal\PYZus{}direction}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{principal\PYZus{}direction}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
-           \PY{n}{angles}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{scale\PYZus{}units}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mf}{1.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Principal direction w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{c+c1}{\PYZsh{} Plot the line passing through the centroid}
-\PY{n}{x\PYZus{}vals} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linspace}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{7}\PY{p}{,} \PY{l+m+mi}{100}\PY{p}{)}
-\PY{n}{y\PYZus{}vals} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{p}{(}\PY{n}{principal\PYZus{}direction}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{n}{x\PYZus{}vals} \PY{o}{+} \PY{n}{w0}\PY{p}{)} \PY{o}{/} \PY{n}{principal\PYZus{}direction}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}
-\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{x\PYZus{}vals}\PY{p}{,} \PY{n}{y\PYZus{}vals}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}w\PYZca{}T x + w\PYZus{}0 = 0\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{c+c1}{\PYZsh{} Plot settings}
-\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}x\PYZus{}1\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}x\PYZus{}2\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Global PCA Principal Direction}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{digit1\PYZus{}mean}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Average Digit\PYZhy{}1 Template}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{off}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
 \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
     \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_13_0.png}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_4_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    Calculate PCA using two methods:
+
+The Gram matrix technique and the standard covariance approach.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} The Gram matrix: G = XX\PYZca{}T}
+\PY{k}{def} \PY{n+nf}{pca\PYZus{}gram}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{n\PYZus{}components}\PY{p}{)}\PY{p}{:}
+    \PY{n}{start\PYZus{}time} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+    \PY{n}{mean\PYZus{}X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{X} \PY{o}{=} \PY{n}{X} \PY{o}{\PYZhy{}} \PY{n}{mean\PYZus{}X}
+    \PY{n}{G} \PY{o}{=} \PY{n}{X} \PY{o}{@} \PY{n}{X}\PY{o}{.}\PY{n}{T}
+    \PY{n}{eigvals}\PY{p}{,} \PY{n}{eigvecs} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{eigh}\PY{p}{(}\PY{n}{G}\PY{p}{)}
+    \PY{n}{idx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argsort}\PY{p}{(}\PY{n}{eigvals}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{eigvals} \PY{o}{=} \PY{n}{eigvals}\PY{p}{[}\PY{n}{idx}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{n}{n\PYZus{}components}\PY{p}{]}
+    \PY{n}{eigvecs} \PY{o}{=} \PY{n}{eigvecs}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{idx}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{:}\PY{n}{n\PYZus{}components}\PY{p}{]}
+    \PY{n}{eigvecs} \PY{o}{=} \PY{n}{X}\PY{o}{.}\PY{n}{T} \PY{o}{@} \PY{n}{eigvecs}
+    \PY{n}{eigvecs} \PY{o}{=} \PY{n}{eigvecs} \PY{o}{/} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{eigvecs}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{end\PYZus{}time} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{eigvecs}\PY{p}{,} \PY{n}{eigvals}\PY{p}{,} \PY{n}{mean\PYZus{}X}\PY{p}{,} \PY{n}{end\PYZus{}time} \PY{o}{\PYZhy{}} \PY{n}{start\PYZus{}time}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Standard covariance approach: C = (1/n)X\PYZca{}TX}
+\PY{k}{def} \PY{n+nf}{pca\PYZus{}std}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{n\PYZus{}components}\PY{p}{)}\PY{p}{:}
+    \PY{n}{start\PYZus{}time} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+    \PY{n}{mean\PYZus{}X} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{X}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
+    \PY{n}{X} \PY{o}{=} \PY{n}{X} \PY{o}{\PYZhy{}} \PY{n}{mean\PYZus{}X}
+    \PY{n}{C} \PY{o}{=} \PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{T} \PY{o}{@} \PY{n}{X}\PY{p}{)} \PY{o}{/} \PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{eigvals}\PY{p}{,} \PY{n}{eigvecs} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{eigh}\PY{p}{(}\PY{n}{C}\PY{p}{)}
+    \PY{n}{idx} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{argsort}\PY{p}{(}\PY{n}{eigvals}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{:}\PY{o}{\PYZhy{}}\PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{eigvals} \PY{o}{=} \PY{n}{eigvals}\PY{p}{[}\PY{n}{idx}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{n}{n\PYZus{}components}\PY{p}{]}
+    \PY{n}{eigvecs} \PY{o}{=} \PY{n}{eigvecs}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{idx}\PY{p}{]}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{:}\PY{n}{n\PYZus{}components}\PY{p}{]}
+    \PY{n}{end\PYZus{}time} \PY{o}{=} \PY{n}{time}\PY{o}{.}\PY{n}{time}\PY{p}{(}\PY{p}{)}
+    \PY{k}{return} \PY{n}{eigvecs}\PY{p}{,} \PY{n}{eigvals}\PY{p}{,} \PY{n}{mean\PYZus{}X}\PY{p}{,} \PY{n}{end\PYZus{}time} \PY{o}{\PYZhy{}} \PY{n}{start\PYZus{}time}
+\end{Verbatim}
+\end{tcolorbox}
+
+    Record computational time:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{n\PYZus{}components} \PY{o}{=} \PY{l+m+mi}{5}
+\PY{n}{eigvecs\PYZus{}std}\PY{p}{,} \PY{n}{eigvals\PYZus{}std}\PY{p}{,} \PY{n}{mean\PYZus{}X\PYZus{}std}\PY{p}{,} \PY{n}{time\PYZus{}std} \PY{o}{=} \PY{n}{pca\PYZus{}std}\PY{p}{(}\PY{n}{x\PYZus{}train\PYZus{}flat}\PY{p}{,} \PY{n}{n\PYZus{}components}\PY{p}{)}
+\PY{n}{eigvecs\PYZus{}gram}\PY{p}{,} \PY{n}{eigvals\PYZus{}gram}\PY{p}{,} \PY{n}{mean\PYZus{}X\PYZus{}gram}\PY{p}{,} \PY{n}{time\PYZus{}gram} \PY{o}{=} \PY{n}{pca\PYZus{}gram}\PY{p}{(}\PY{n}{x\PYZus{}train\PYZus{}flat}\PY{p}{,} \PY{n}{n\PYZus{}components}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Standard PCA time: }\PY{l+s+si}{\PYZob{}}\PY{n}{time\PYZus{}std}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{s}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gram PCA time: }\PY{l+s+si}{\PYZob{}}\PY{n}{time\PYZus{}gram}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{s}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Standard PCA time: 0.3533s
+Gram PCA time: 140.7519s
+    \end{Verbatim}
+
+    Visualization:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}pcs}\PY{p}{(}\PY{n}{pcs}\PY{p}{,} \PY{n}{title}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{12}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{pcs}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{pcs}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{pcs}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{i}\PY{p}{]}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,} \PY{l+m+mi}{28}\PY{p}{)}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{off}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{PC}\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{n}{title}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plot\PYZus{}pcs}\PY{p}{(}\PY{n}{eigvecs\PYZus{}std}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Top 5 PCs (Standard PCA)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot\PYZus{}pcs}\PY{p}{(}\PY{n}{eigvecs\PYZus{}gram}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Top 5 PCs (Gram PCA)}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_11_1.png}
     \end{center}
     { \hspace*{\fill} \\}
     
@@ -562,88 +549,13 @@ Linear equation: 0.8910 * x1 + 0.4541 * x2 + (-4.3293) = 0
 \item
 \end{enumerate}
 
-Project centered data onto principal component to obtain scalar
-projections z
+In the MNIST dataset, the number of samples (1000) is much larger than
+the feature dimension of each image (784). Since the Gram matrix method
+is only more efficient when the number of samples is smaller than the
+number of features, using the Gram matrix approach (based on
+\(X X^\top\)) does not provide any computational advantage and may
+actually slow down the process due to the larger matrix size.
 
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{9}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{c+c1}{\PYZsh{} equation: z\PYZus{}i = w\PYZca{}T (x\PYZus{}i \PYZhy{} centroid)}
-\PY{n}{X\PYZus{}centered} \PY{o}{=} \PY{n}{X} \PY{o}{\PYZhy{}} \PY{n}{centroid}  \PY{c+c1}{\PYZsh{} shape (n, 2)}
-\PY{n}{z} \PY{o}{=} \PY{n}{X\PYZus{}centered}\PY{o}{.}\PY{n}{dot}\PY{p}{(}\PY{n}{principal\PYZus{}direction}\PY{p}{)}  \PY{c+c1}{\PYZsh{} shape (n,)}
-\PY{n}{z}
-\end{Verbatim}
-\end{tcolorbox}
-
-            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
-\prompt{Out}{outcolor}{9}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-array([-2.09325325, -1.63916009, -1.18506692,  0.59684149,  1.4877957 ,
-        2.83284307])
-\end{Verbatim}
-\end{tcolorbox}
-        
-    Reconstruct back to original space:
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{10}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{c+c1}{\PYZsh{} equation: x\PYZus{}hat\PYZus{}i = centroid + z\PYZus{}i * w}
-\PY{n}{X\PYZus{}recon} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{outer}\PY{p}{(}\PY{n}{z}\PY{p}{,} \PY{n}{principal\PYZus{}direction}\PY{p}{)} \PY{o}{+} \PY{n}{centroid}
-\PY{n}{X\PYZus{}recon}
-\end{Verbatim}
-\end{tcolorbox}
-
-            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
-\prompt{Out}{outcolor}{10}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-array([[1.63500721, 1.71613467],
-       [2.03958343, 1.92233527],
-       [2.44415965, 2.12853588],
-       [4.03175844, 2.93768831],
-       [4.82555783, 3.34226453],
-       [6.02393344, 3.95304135]])
-\end{Verbatim}
-\end{tcolorbox}
-        
-    Visualization: original vs reconstructed, connect with lines
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{11}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{6}\PY{p}{,}\PY{l+m+mi}{6}\PY{p}{)}\PY{p}{)}
-
-\PY{c+c1}{\PYZsh{} original points (filled)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{X}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{X}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{60}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Original}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{zorder}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{)}
-
-\PY{c+c1}{\PYZsh{} reconstructed points (hollow)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{n}{X\PYZus{}recon}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{X\PYZus{}recon}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{facecolors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{none}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{edgecolors}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{tab:orange}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
-            \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{o}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{120}\PY{p}{,} \PY{n}{linewidths}\PY{o}{=}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Reconstructed}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{zorder}\PY{o}{=}\PY{l+m+mi}{4}\PY{p}{)}
-
-\PY{c+c1}{\PYZsh{} connect each original point to its reconstruction}
-\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{X}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
-    \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{n}{X}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{X\PYZus{}recon}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{n}{X}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{X\PYZus{}recon}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{linewidth}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
-
-\PY{c+c1}{\PYZsh{} plot centroid and principal direction}
-\PY{n}{plt}\PY{o}{.}\PY{n}{scatter}\PY{p}{(}\PY{o}{*}\PY{n}{centroid}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{black}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{marker}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{x}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{s}\PY{o}{=}\PY{l+m+mi}{100}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Centroid}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{zorder}\PY{o}{=}\PY{l+m+mi}{5}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{quiver}\PY{p}{(}\PY{n}{centroid}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{centroid}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,} \PY{n}{principal\PYZus{}direction}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{principal\PYZus{}direction}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}
-           \PY{n}{angles}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{scale\PYZus{}units}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{xy}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{scale}\PY{o}{=}\PY{l+m+mf}{1.5}\PY{p}{,} \PY{n}{color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{green}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Principal direction w}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{zorder}\PY{o}{=}\PY{l+m+mi}{6}\PY{p}{)}
-
-\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}x\PYZus{}1\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{\PYZdl{}x\PYZus{}2\PYZdl{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{equal}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{grid}\PY{p}{(}\PY{k+kc}{True}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Projection onto Principal Component and Reconstruction}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
-
-    \begin{center}
-    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_0.png}
-    \end{center}
-    { \hspace*{\fill} \\}
-    
     \begin{enumerate}
 \def\labelenumi{(\alph{enumi})}
 \setcounter{enumi}{2}
@@ -651,101 +563,64 @@ array([[1.63500721, 1.71613467],
 \item
 \end{enumerate}
 
-Compute reconstruction errors and MSE:
+Image reconstruct and MSE
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{12}{\boxspacing}
+\prompt{In}{incolor}{8}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{c+c1}{\PYZsh{} equation: error\PYZus{}i = x\PYZus{}i \PYZhy{} x\PYZus{}hat\PYZus{}i}
-\PY{n}{errors} \PY{o}{=} \PY{n}{X} \PY{o}{\PYZhy{}} \PY{n}{X\PYZus{}recon}
-\PY{n}{squared\PYZus{}errors} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{n}{errors}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{,} \PY{n}{axis}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
-\PY{n}{mse\PYZus{}total} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{squared\PYZus{}errors}\PY{p}{)}
-\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Per\PYZhy{}point squared reconstruction errors :}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-\PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{n}{se} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{squared\PYZus{}errors}\PY{p}{)}\PY{p}{:}
-    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Point }\PY{l+s+si}{\PYZob{}}\PY{n}{i}\PY{o}{+}\PY{l+m+mi}{1}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{: }\PY{l+s+si}{\PYZob{}}\PY{n}{se}\PY{l+s+si}{:}\PY{l+s+s2}{.6f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Mean Squared Error (MSE): }\PY{l+s+si}{\PYZob{}}\PY{n}{mse\PYZus{}total}\PY{l+s+si}{:}\PY{l+s+s2}{.6f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{reconstruct\PYZus{}image}\PY{p}{(}\PY{n}{img}\PY{p}{,} \PY{n}{eigvecs}\PY{p}{,} \PY{n}{mean\PYZus{}X}\PY{p}{,} \PY{n}{n\PYZus{}list}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{5}\PY{p}{,} \PY{l+m+mi}{10}\PY{p}{,} \PY{l+m+mi}{20}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{img\PYZus{}centered} \PY{o}{=} \PY{n}{img} \PY{o}{\PYZhy{}} \PY{n}{mean\PYZus{}X}
+    \PY{n}{results} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{k}{for} \PY{n}{n} \PY{o+ow}{in} \PY{n}{n\PYZus{}list}\PY{p}{:}
+        \PY{n}{pcs} \PY{o}{=} \PY{n}{eigvecs}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{:}\PY{n}{n}\PY{p}{]} \PY{c+c1}{\PYZsh{} choose top\PYZhy{}n PCs}
+        \PY{n}{coeffs} \PY{o}{=} \PY{n}{pcs}\PY{o}{.}\PY{n}{T} \PY{o}{@} \PY{n}{img\PYZus{}centered} \PY{c+c1}{\PYZsh{} projection coefficients}
+        \PY{n}{recon} \PY{o}{=} \PY{n}{pcs} \PY{o}{@} \PY{n}{coeffs} \PY{o}{+} \PY{n}{mean\PYZus{}X} \PY{c+c1}{\PYZsh{} reconstruction}
+        \PY{n}{mse} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{linalg}\PY{o}{.}\PY{n}{norm}\PY{p}{(}\PY{n}{img} \PY{o}{\PYZhy{}} \PY{n}{recon}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}
+        \PY{n}{results}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{p}{(}\PY{n}{recon}\PY{p}{,} \PY{n}{mse}\PY{p}{)}\PY{p}{)}
+    \PY{k}{return} \PY{n}{results}
+
+\PY{n}{img\PYZus{}idx} \PY{o}{=} \PY{l+m+mi}{0}
+\PY{n}{img\PYZus{}original} \PY{o}{=} \PY{n}{x\PYZus{}train\PYZus{}flat}\PY{p}{[}\PY{n}{img\PYZus{}idx}\PY{p}{]}
+
+\PY{n}{recon\PYZus{}std} \PY{o}{=} \PY{n}{reconstruct\PYZus{}image}\PY{p}{(}\PY{n}{img\PYZus{}original}\PY{p}{,} \PY{n}{eigvecs\PYZus{}std}\PY{p}{,} \PY{n}{mean\PYZus{}X\PYZus{}std}\PY{p}{)}
+\PY{n}{recon\PYZus{}gram} \PY{o}{=} \PY{n}{reconstruct\PYZus{}image}\PY{p}{(}\PY{n}{img\PYZus{}original}\PY{p}{,} \PY{n}{eigvecs\PYZus{}gram}\PY{p}{,} \PY{n}{mean\PYZus{}X\PYZus{}gram}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
-    \begin{Verbatim}[commandchars=\\\{\}]
-
-Per-point squared reconstruction errors :
-Point 1: 0.646069
-Point 2: 0.007599
-Point 3: 0.956728
-Point 4: 0.004891
-Point 5: 0.147575
-Point 6: 0.002778
-
-Mean Squared Error (MSE): 0.294273
-    \end{Verbatim}
-
-    \begin{enumerate}
-\def\labelenumi{(\alph{enumi})}
-\setcounter{enumi}{3}
-\tightlist
-\item
-\end{enumerate}
-
-Split projections by class
+    Visualization:
 
     \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{13}{\boxspacing}
+\prompt{In}{incolor}{9}{\boxspacing}
 \begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{z1} \PY{o}{=} \PY{n}{z}\PY{p}{[}\PY{p}{:}\PY{l+m+mi}{3}\PY{p}{]}
-\PY{n}{z2} \PY{o}{=} \PY{n}{z}\PY{p}{[}\PY{l+m+mi}{3}\PY{p}{:}\PY{p}{]}
-\PY{n}{z1}\PY{p}{,} \PY{n}{z2}
+\PY{k}{def} \PY{n+nf}{plot\PYZus{}reconstructions}\PY{p}{(}\PY{n}{original}\PY{p}{,} \PY{n}{recon\PYZus{}list}\PY{p}{,} \PY{n}{method\PYZus{}name}\PY{p}{,} \PY{n}{n\PYZus{}list}\PY{o}{=}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{5}\PY{p}{,}\PY{l+m+mi}{10}\PY{p}{,}\PY{l+m+mi}{20}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{n\PYZus{}list}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{original}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,}\PY{l+m+mi}{28}\PY{p}{)}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Original}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{off}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{k}{for} \PY{n}{i}\PY{p}{,} \PY{p}{(}\PY{n}{recon}\PY{p}{,} \PY{n}{mse}\PY{p}{)} \PY{o+ow}{in} \PY{n+nb}{enumerate}\PY{p}{(}\PY{n}{recon\PYZus{}list}\PY{p}{)}\PY{p}{:}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{subplot}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{n\PYZus{}list}\PY{p}{)}\PY{o}{+}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{i}\PY{o}{+}\PY{l+m+mi}{2}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{recon}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{l+m+mi}{28}\PY{p}{,}\PY{l+m+mi}{28}\PY{p}{)}\PY{p}{,} \PY{n}{cmap}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{gray}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{n=}\PY{l+s+si}{\PYZob{}}\PY{n}{n\PYZus{}list}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{l+s+si}{\PYZcb{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{MSE=}\PY{l+s+si}{\PYZob{}}\PY{n}{mse}\PY{l+s+si}{:}\PY{l+s+s2}{.1f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{off}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Reconstructions using }\PY{l+s+si}{\PYZob{}}\PY{n}{method\PYZus{}name}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{plot\PYZus{}reconstructions}\PY{p}{(}\PY{n}{img\PYZus{}original}\PY{p}{,} \PY{n}{recon\PYZus{}std}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Standard PCA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plot\PYZus{}reconstructions}\PY{p}{(}\PY{n}{img\PYZus{}original}\PY{p}{,} \PY{n}{recon\PYZus{}gram}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Gram PCA}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
 \end{Verbatim}
 \end{tcolorbox}
 
-            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
-\prompt{Out}{outcolor}{13}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-(array([-2.09325325, -1.63916009, -1.18506692]),
- array([0.59684149, 1.4877957 , 2.83284307]))
-\end{Verbatim}
-\end{tcolorbox}
-        
-    Compute per-class mean and variance:
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{14}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{m1} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{z1}\PY{p}{)}
-\PY{n}{m2} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{n}{z2}\PY{p}{)}
-\PY{n}{sigma1\PYZus{}sq} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{var}\PY{p}{(}\PY{n}{z1}\PY{p}{,} \PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
-\PY{n}{sigma2\PYZus{}sq} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{var}\PY{p}{(}\PY{n}{z2}\PY{p}{,} \PY{n}{ddof}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{)}
-\PY{n}{m1}\PY{p}{,} \PY{n}{sigma1\PYZus{}sq}\PY{p}{,} \PY{n}{m2}\PY{p}{,} \PY{n}{sigma2\PYZus{}sq}
-\end{Verbatim}
-\end{tcolorbox}
-
-            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
-\prompt{Out}{outcolor}{14}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-(-1.6391600857157167,
- 0.13746706965069366,
- 1.6391600857157167,
- 0.8447394314242658)
-\end{Verbatim}
-\end{tcolorbox}
-        
-    Calculate Fisher discriminant ratio:
-
-FR = (m1 - m2)\^{}2 / (sigma1\^{}2 + sigma2\^{}2)
-
-    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
-\prompt{In}{incolor}{15}{\boxspacing}
-\begin{Verbatim}[commandchars=\\\{\}]
-\PY{n}{FR} \PY{o}{=} \PY{p}{(}\PY{n}{m1} \PY{o}{\PYZhy{}} \PY{n}{m2}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{/} \PY{p}{(}\PY{n}{sigma1\PYZus{}sq} \PY{o}{+} \PY{n}{sigma2\PYZus{}sq}\PY{p}{)}
-\PY{n+nb}{print}\PY{p}{(}\PY{l+s+sa}{f}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{Fisher}\PY{l+s+s2}{\PYZsq{}}\PY{l+s+s2}{s Ratio (FR): }\PY{l+s+si}{\PYZob{}}\PY{n}{FR}\PY{l+s+si}{:}\PY{l+s+s2}{.4f}\PY{l+s+si}{\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
-\end{Verbatim}
-\end{tcolorbox}
-
-    \begin{Verbatim}[commandchars=\\\{\}]
-
-Fisher's Ratio (FR): 10.9421
-    \end{Verbatim}
-
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_16_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
 
     % Add a bibliography block to the postdoc
     
