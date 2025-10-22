@@ -6,3 +6,4 @@
 *.synctex
 .ipynb_checkpoints
 .vscode/
+.DS_Store
