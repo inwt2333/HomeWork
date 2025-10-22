@@ -1,0 +1,95 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+
+\title{\textbf{10月22日作业}}
+\author{韩岳成 524531910029}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{题目\arabic{problemname}. }}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\par}
+\newenvironment{note}{\par\noindent\textbf{题目\arabic{problemname}的注记. }}{\par}
+
+\begin{document}
+
+\maketitle
+\begin{problem}
+设$f(x)\in C^2([a,b])$，且$f(a)=f(b)=0$，求证$\max_{a\le x\le b}|f(x)|\le\frac18(b-a)^2\max_{a\le x\le b}|f''(x)|$.
+\end{problem}
+
+\begin{solution}
+若$\max_{a\le x\le b}|f(x)|$出现在端点，则显然有$f(x)\equiv 0, f''(x)\equiv 0$，此时不等式成立。
+
+若$\max_{a\le x\le b}|f(x)|$不出现在端点，设$c\in(a,b)$使得$|f(c)|=\max_{a\le x\le b}|f(x)|$，假设$f(c)>0$（若$f(c)<0$，则可以考虑$-f(x)$），由极值条件可得$f'(c)=0$.
+
+由拉格朗日余项形式的二阶泰勒展开式，对于任意 $x\in[a,b]$，存在 $\xi$ 介于 $x$ 与 $c$ 之间，使得
+\[
+f(x)=f(c)+f'(c)(x-c)+\frac{1}{2}f''(\xi)(x-c)^2.
+\]
+当 $x=a$ 时，利用 $f(a)=0$ 及 $f'(c)=0$，得
+\[
+0=f(c)+\frac{1}{2}f''(\xi_1)(a-c)^2,
+\]
+其中 $\xi_1\in(a,c)$。因此
+\[
+f(c)=-\frac{1}{2}f''(\xi_1)(a-c)^2,
+\]
+从而
+\[
+|f(c)|\le \frac{1}{2}\max_{[a,b]}|f''(x)|\,(c-a)^2.
+\]
+
+同理，对 $x=b$，存在 $\xi_2\in(c,b)$ 使
+\[
+|f(c)|\le \frac{1}{2}\max_{[a,b]}|f''(x)|\,(b-c)^2.
+\]
+
+于是
+\[
+|f(c)|\le \frac{1}{2}\max_{[a,b]}|f''(x)|\min\{(c-a)^2,(b-c)^2\}.
+\]
+
+由于对任意 $c\in[a,b]$，都有
+\[
+\min\{(c-a)^2,(b-c)^2\}\le \left(\frac{b-a}{2}\right)^2,
+\]
+当且仅当 $c=\frac{a+b}{2}$ 时取等号。由此得到
+\[
+|f(c)|\le \frac{1}{2}\cdot\frac{(b-a)^2}{4}\max_{[a,b]}|f''(x)|
+=\frac{1}{8}(b-a)^2\max_{[a,b]}|f''(x)|.
+\]
+
+因为 $|f(c)|=M=\max_{a\le x\le b}|f(x)|$，故
+\[
+\max_{a\le x\le b}|f(x)|\le\frac{1}{8}(b-a)^2\max_{a\le x\le b}|f''(x)|.
+\]
+\end{solution}
+
+\begin{problem}
+$f(x)=x^7+x^4+3x+1,\text{求 }f[2^0,2^1,\cdots,2^7]$及$f[2^0,2^1,\cdots,2^8]$.
+\end{problem}
+
+\begin{solution}
+将$f(x)$写成Newton插值多项式的形式：\\
+$f(x)=N_n(x)=f(2^0)+ f[x_0,x_1](x-2^0)+ \cdots + f[2^0,2^1,\cdots,2^7]\\(x-2^0)(x-2^1)\cdots(x-2^6)+f[2^0,2^1,\cdots,2^8](x-2^0)(x-2^1)\cdots(x-2^7)\\=f[2^0,2^1,\cdots,2^8]x^8+[(-2^0-2^1-\cdots-2^7)f[2^0,2^1,\cdots,2^8]+f[2^0,2^1,\cdots,2^7]]x^7+\cdots\\=x^7+x^4+3x+1$
+
+将系数对比可得：
+\[f[2^0,2^1,\cdots,2^7]=1\]
+\[f[2^0,2^1,\cdots,2^8]=0\]
+\end{solution}
+
+\begin{problem}
+求一个次数不高于四次的多项式$P(x)$，使它满足$P(0)=P'(0)=0, P(1)=P'(1)=1, P(2)=1.$
+\end{problem}
+
+\begin{solution}
+对$P(0)=P'(0)=0,P(1)=P'(1)=1$，可构造出两点三次Hermite插值多项式：
+\[H_3(x) = 0 + 1 \times (1 + 2\frac{x - 1}{0 - 1})(\frac{x - 0}{1 - 0})^2 + 0 + 1 \times (x - 1)(\frac{x - 0}{1 - 0})^2=(2-x)x^2\]
+因为$x^2(x-1)^2$在$x=0,1$处及其导数均为0，所以设$P(x)=H_3(x)+Ax^2(x-1)^2$，代入$P(2)=1$可得：
+\[P(2)=(2-2)2^2+A\times2^2(2-1)^2=A\times4=1\Rightarrow A=\frac14\]
+所以所求多项式为：
+\[P(x)=(2-x)x^2+\frac14x^2(x-1)^2=\frac14x^2(x-3)^2\]
+\end{solution}
+\end{document}
+
