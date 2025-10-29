@@ -1,0 +1,81 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs, caption}
+
+\title{\textbf{10月29日作业}}
+\author{韩岳成 524531910029}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{题目\arabic{problemname}. }}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\par}
+\newenvironment{note}{\par\noindent\textbf{题目\arabic{problemname}的注记. }}{\par}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+    求$f(x)=x^2$在$[a,b]$上的分段线性插值函数$I_h(x)$,并估计误差。
+\end{problem}
+
+\begin{solution}
+    设插值节点为$a=x_0<x_1<\cdots<x_n=b$,则在$[x_i,x_{i+1}]$上,有
+    \[
+        I_h(x)=f(x_i)\frac{x_{i+1}-x}{x_{i+1}-x_i}+f(x_{i+1})\frac{x-x_i}{x_{i+1}-x_i}=(x_i+x_{i+1})x - x_ix_{i+1}
+    \]
+    设$h_i = x_{i+1}-x_i,\quad h = \max_{0\leq i \leq n-1}h_i$,则对任意$x\in[a,b]$,存在$i$使得$x\in[x_i,x_{i+1}]$,由插值误差公式,存在$\xi\in[x_i,x_{i+1}]$使得
+    \[
+        f(x)-I_h(x) = \frac{f''(\xi)}{2!}(x-x_i)(x-x_{i+1}) = (x-x_i)(x-x_{i+1})<\frac{h^2}{4}
+    \]
+    其中$f''(\xi)\equiv 2$.
+\end{solution}
+
+\begin{problem}
+给定数据如下表所示，试求三次样条插值 $S(x)$,并满足条件
+
+(1) $S^{\prime}(0.25)=1.0000,S^{\prime}(0.53)=0.6868;$
+
+(2) $S^{\prime \prime }( 0. 25) = S^{\prime \prime }( 0. 53) = 0.$
+\begin{center}
+\captionof{table}{插值节点数据}
+\begin{tabular}{|l|c|c|c|c|c|}
+\hline
+$x_j$ & 0.25 & 0.30 & 0.39 & 0.45 & 0.53 \\
+\hline
+$y_j$ & 0.5000 & 0.5477 & 0.6245 & 0.6708 & 0.7280 \\
+\hline
+\end{tabular}
+\end{center}
+\end{problem}
+
+\begin{solution}
+(1)由公式$h_k=x_{k+1}-x_k$计算可得
+\[
+    h_0=0.05,h_1=0.09,h_2=0.06,h_3=0.08
+\]
+再由$\mu_k=\frac{h_{k-1}}{h_{k-1}+h_k},\lambda_k=\frac{h_k}{h_{k-1}+h_k}$计算可得
+\[  
+    \mu_1=\frac{5}{14},\lambda_1=\frac{9}{14};\quad \mu_2=0.6,\lambda_2=0.4;\quad \mu_3=\frac{3}{7},\lambda_3=\frac{4}{7}
+\]
+再由$g_k=3(\mu_kf[x_{k-1},x_k]+\lambda_kf[x_k,x_{k+1}])$计算可得
+\[
+    g_1=3\left(\frac{5}{14}\times\frac{0.5477-0.5000}{0.30-0.25}+\frac{9}{14}\times\frac{0.6245-0.5477}{0.39-0.30}\right)=\frac{747}{280}
+\]
+\[
+    g_2=3\left(0.6\times\frac{0.6245-0.5477}{0.39-0.30}+0.4\times\frac{0.6708-0.6245}{0.45-0.39}\right)=2.462
+\]
+\[
+    g_3=3\left(\frac{3}{7}\times\frac{0.6708-0.6245}{0.45-0.39}+\frac{4}{7}\times\frac{0.7280-0.6708}{0.53-0.45}\right)=\frac{621}{280}
+\]
+同时,$m_0=1.0000,m_4=0.6868$，因此可列线性方程组：
+\[
+\begin{bmatrix}2&\frac{5}{14}&&\\0.6&2&0.4&\\&\frac{4}{7}&2&\end{bmatrix}\begin{bmatrix}m_1\\m_2\\m_3\end{bmatrix}=\begin{bmatrix}\frac{747}{280}-\frac{9}{14}\times 1.0000\\2.462\\\frac{621}{280}-\frac{3}{7}\times0.6868\end{bmatrix}
+\]
+解得
+\[
+\begin{bmatrix}m_1\\m_2\\m_3\end{bmatrix}=\begin{bmatrix}0.8650\\0.8263\\0.7259\end{bmatrix}
+\]
+代入$\begin{gathered}s_k(x)=\frac{(x-x_{k+1})^2[h_k+2(x-x_k)]}{h_k^3}y_k+\frac{(x-x_k)^2[h_k+2(x_{k+1}-x)]}{h_k^3}y_{k+1}\\+\frac{(x-x_{k+1})^2(x-x_k)}{h_k^2}m_k+\frac{(x-x_k)^2(x-x_{k+1})}{h_k^2}m_{k+1}\end{gathered}$可得分段三次样条插值函数$S(x)$:
+\end{solution}
+\end{document}
