@@ -60,22 +60,40 @@ $y_j$ & 0.5000 & 0.5477 & 0.6245 & 0.6708 & 0.7280 \\
 \]
 再由$g_k=3(\mu_kf[x_{k-1},x_k]+\lambda_kf[x_k,x_{k+1}])$计算可得
 \[
-    g_1=3\left(\frac{5}{14}\times\frac{0.5477-0.5000}{0.30-0.25}+\frac{9}{14}\times\frac{0.6245-0.5477}{0.39-0.30}\right)=\frac{747}{280}
+    g_1=3\left(\frac{9}{14}\times\frac{0.5477-0.5000}{0.30-0.25}+\frac{5}{14}\times\frac{0.6245-0.5477}{0.39-0.30}\right)=2.7541
 \]
 \[
-    g_2=3\left(0.6\times\frac{0.6245-0.5477}{0.39-0.30}+0.4\times\frac{0.6708-0.6245}{0.45-0.39}\right)=2.462
+    g_2=3\left(0.4\times\frac{0.6245-0.5477}{0.39-0.30}+0.6\times\frac{0.6708-0.6245}{0.45-0.39}\right)=2.413
 \]
 \[
-    g_3=3\left(\frac{3}{7}\times\frac{0.6708-0.6245}{0.45-0.39}+\frac{4}{7}\times\frac{0.7280-0.6708}{0.53-0.45}\right)=\frac{621}{280}
+    g_3=3\left(\frac{4}{7}\times\frac{0.6708-0.6245}{0.45-0.39}+\frac{3}{7}\times\frac{0.7280-0.6708}{0.53-0.45}\right)=2.2421
 \]
-同时,$m_0=1.0000,m_4=0.6868$，因此可列线性方程组：
+同时,$m_0=1.0000,m_4=0.6868$，因此基于边界条件1，可列线性方程组：
 \[
-\begin{bmatrix}2&\frac{5}{14}&&\\0.6&2&0.4&\\&\frac{4}{7}&2&\end{bmatrix}\begin{bmatrix}m_1\\m_2\\m_3\end{bmatrix}=\begin{bmatrix}\frac{747}{280}-\frac{9}{14}\times 1.0000\\2.462\\\frac{621}{280}-\frac{3}{7}\times0.6868\end{bmatrix}
+\begin{bmatrix}2&\frac{5}{14}&&\\0.4&2&0.6&\\&\frac{4}{7}&2&\end{bmatrix}\begin{bmatrix}m_1\\m_2\\m_3\end{bmatrix}=\begin{bmatrix}2.7541-\frac{9}{14}\times 1.0000\\2.413\\2.2421-\frac{3}{7}\times0.6868\end{bmatrix}
 \]
 解得
 \[
-\begin{bmatrix}m_1\\m_2\\m_3\end{bmatrix}=\begin{bmatrix}0.8650\\0.8263\\0.7259\end{bmatrix}
+\begin{bmatrix}m_1\\m_2\\m_3\end{bmatrix}=\begin{bmatrix}0.9127\\0.8004\\0.7452\end{bmatrix}
 \]
-代入$\begin{gathered}s_k(x)=\frac{(x-x_{k+1})^2[h_k+2(x-x_k)]}{h_k^3}y_k+\frac{(x-x_k)^2[h_k+2(x_{k+1}-x)]}{h_k^3}y_{k+1}\\+\frac{(x-x_{k+1})^2(x-x_k)}{h_k^2}m_k+\frac{(x-x_k)^2(x-x_{k+1})}{h_k^2}m_{k+1}\end{gathered}$可得分段三次样条插值函数$S(x)$:
+代入$\begin{gathered}s_k(x)=\frac{(x-x_{k+1})^2[h_k+2(x-x_k)]}{h_k^3}y_k+\frac{(x-x_k)^2[h_k+2(x_{k+1}-x)]}{h_k^3}y_{k+1}\\+\frac{(x-x_{k+1})^2(x-x_k)}{h_k^2}m_k+\frac{(x-x_k)^2(x-x_{k+1})}{h_k^2}m_{k+1}\end{gathered}$可得分段三次样条插值函数:
+\[S(x)=
+\begin{cases}
+1.88 x^3 - 2.424 x^2 + 1.8595 x + 0.15725, & x\in[0.25,0.30],\\
+0.794239 x^3 - 1.44593 x^2 + 1.56581 x + 0.186646, & x\in[0.30,0.39],\\
+0.62963 x^3 - 1.25333 x^2 + 1.4907 x + 0.19641, & x\in[0.39,0.45],\\
+0.3125 x^3 - 0.824375 x^2 + 1.29729 x + 0.225477, & x\in[0.45,0.53].
+\end{cases}\]
+
+(2)$g_0 = 3\frac{y_1 - y_0}{h_0} - 0 = 2.862, \quad g_4 = 3\frac{y_4 - y_3}{h_3} + 0 = 2.145$，因此基于边界条件2，可列线性方程组：
+\[\begin{bmatrix}2&1&&&&\\\frac{9}{14}&2&\frac{5}{14}&&&\\ &0.4&2&0.6&&\\ &&\frac{4}{7}&2&\frac{3}{7}&\\ &&&1&2&\end{bmatrix}\begin{bmatrix}m_0\\m_1\\m_2\\m_3\\m_4\end{bmatrix}=\begin{bmatrix}2.862\\2.7541\\2.413\\2.2421\\2.145\end{bmatrix}\]
+解得
+\[\begin{bmatrix}m_0\\m_1\\m_2\\m_3\\m_4\end{bmatrix}=\begin{bmatrix}0.9697\\0.9226\\0.7992\\0.7424\\0.7013\end{bmatrix}\]
+代入$\begin{gathered}s_k(x)=\frac{(x-x_{k+1})^2[h_k+2(x-x_k)]}{h_k^3}y_k+\frac{(x-x_k)^2[h_k+2(x_{k+1}-x)]}{h_k^3}y_{k+1}\\+\frac{(x-x_{k+1})^2(x-x_k)}{h_k^2}m_k+\frac{(x-x_k)^2(x-x_{k+1})}{h_k^2}m_{k+1}\end{gathered}$可得分段三次样条插值函数:
+\[S(x)=\begin{cases}-6.28 x^3 + 4.71 x^2 - 0.2078 x + 0.3557, & x\in[0.25,0.30],\\
+    1.8683 x^3 - 2.6193 x^2 + 1.9897 x + 0.1360, & x\in[0.30,0.39],\\
+    -0.4815 x^3 + 0.1333 x^2 + 0.9149 x + 0.2760, & x\in[0.39,0.45],\\
+    2.1406 x^3 - 3.4036 x^2 + 2.5052 x + 0.03762, & x\in[0.45,0.53].
+\end{cases}\]
 \end{solution}
 \end{document}
