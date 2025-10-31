@@ -1,0 +1,201 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+
+\title{\textbf{10月30日作业}}
+\author{韩岳成 524531910029}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{题目\arabic{problemname}. }}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\par}
+\newenvironment{note}{\par\noindent\textbf{题目\arabic{problemname}的注记. }}{\par}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+设随机变量$ X $与$ Y $相互独立, 并且都服从正态分布 N(0, $\sigma^2$), 证明 $Z=\sqrt{X^2+Y^2}$ 的概率密度为
+\[f_{Z}(z)=\begin{cases}\frac{z}{\sigma^2}e^{-\frac{z^2}{2\sigma^2}}, & z\ge 0, \\0, & z<0.\end{cases}\]
+(此时称$ Z $服从参数为 $\sigma$($\sigma>0$) 的 Rayleigh(瑞利)分布.)
+\end{problem}
+
+\begin{solution}
+    由于$ X $与$ Y $相互独立, 且都服从正态分布 N(0, $\sigma^2$), 故其联合概率密度为
+    \[f_{X,Y}(x,y)=f_{X}(x)f_{Y}(y)=\frac{1}{2\pi\sigma^2}e^{-\frac{x^2+y^2}{2\sigma^2}}.\]
+    由$ Z=\sqrt{X^2+Y^2} $可知, $ Y=\sqrt{Z^2 - X^2} $ 或 $ Y=-\sqrt{Z^2 - X^2} $. 因此,
+    \begin{align*}
+        f_{Z}(z)&=\int_{-\infty}^{+\infty}f_{X,Y}(x,\sqrt{z^2 - x^2})\left|\frac{\partial y}{\partial z}\right|dx + \int_{-\infty}^{+\infty}f_{X,Y}(x,-\sqrt{z^2 - x^2})\left|\frac{\partial y}{\partial z}\right|dx \\
+        &= \int_{-\infty}^{+\infty}\frac{1}{2\pi\sigma^2}e^{-\frac{x^2+(\sqrt{z^2 - x^2})^2}{2\sigma^2}}\frac{z}{\sqrt{z^2 - x^2}}dx + \int_{-\infty}^{+\infty}\frac{1}{2\pi\sigma^2}e^{-\frac{x^2+(-\sqrt{z^2 - x^2})^2}{2\sigma^2}}\frac{z}{\sqrt{z^2 - x^2}}dx \\
+        &= \frac{z}{\pi\sigma^2}e^{-\frac{z^2}{2\sigma^2}}\int_{-\infty}^{+\infty}\frac{1}{\sqrt{z^2 - x^2}}dx \\
+        &= \frac{z}{\pi\sigma^2}e^{-\frac{z^2}{2\sigma^2}}\cdot \pi \\
+        &= \frac{z}{\sigma^2}e^{-\frac{z^2}{2\sigma^2}}.
+    \end{align*}
+    当$ z<0 $时, 显然$ f_{Z}(z)=0 $. 综上所述, $ Z $的概率密度为
+    \[f_{Z}(z)=\begin{cases}\frac{z}{\sigma^2}e^{-\frac{z^2}{2\sigma^2}}, & z\ge 0, \\0, & z<0.\end{cases}\]
+\end{solution}
+
+\begin{problem}
+若某电子设备的输出服从$\sigma=2$的Rayleigh分布，$X_1,X_2,X_3,X_4,X_5$表示相互独立的测量5次的输出，求：
+
+(1)$Z=\max\left|X_1,X_2,X_3,X_4,X_5\right|$的分布函数；
+
+(2)$P(Z>4)$.
+\end{problem}
+
+\begin{solution}
+    (1) $F_{X}(x) = \int_{-\infty}^{x} f_{X}(t) dt = \int_{0}^{x} \frac{t}{4} e^{-\frac{t^2}{8}} dt = 1 - e^{-\frac{x^2}{8}}.$
+
+    由题意可知, $ X_i $($ i=1,2,3,4,5 $)相互独立且都服从参数为$ \sigma=2 $的Rayleigh分布. 因此,
+    \begin{align*}
+        F_{Z}(z)&=P(Z\le z)=P(\max|X_1,X_2,X_3,X_4,X_5|\le z) \\
+        &=P(|X_1|\le z,|X_2|\le z,|X_3|\le z,|X_4|\le z,|X_5|\le z) \\
+        &=\prod_{i=1}^{5}P(|X_i|\le z) \\
+        &=\left(F_{X}(z)\right)^5 \\
+        &=\left(1 - e^{-\frac{z^2}{8}}\right)^5.
+    \end{align*}
+
+    (2)
+    \begin{align*}
+        P(Z>4)&=1 - P(Z\le 4) \\
+        &=1 - F_{Z}(4) \\
+        &=1 - \left(1 - e^{-2}\right)^5.
+    \end{align*}
+\end{solution}
+
+\begin{problem}
+设随机变量$X$与$Y$相互独立且均服从$(1,3)$内的均匀分布,试求$Z=|X-Y|$的概率密度.
+\end{problem}
+
+\begin{solution}
+由题意可得，
+\[ f_{X}(x)=\begin{cases}\frac{1}{2}, & 1<x<3, \\0, & \text{其他}.\end{cases} \]
+同理,
+\[ f_{Y}(y)=\begin{cases}\frac{1}{2}, & 1<y<3, \\0, & \text{其他}.\end{cases} \]
+由于$ X $与$ Y $相互独立, 故其联合概率密度为
+\[ f_{X,Y}(x,y)=f_{X}(x)f_{Y}(y)=\begin{cases}\frac{1}{4}, & 1<x<3, 1<y<3, \\0, & \text{其他}.\end{cases} \]
+由$ Z=|X-Y| $可知, $Y=X-Z$ 或 $Y=X+Z$. 因此,
+\begin{align*}
+    f_{Z}(z)&=\int_{-\infty}^{+\infty}f_{X,Y}(x,x-z)\left|\frac{\partial y}{\partial z}\right|dx + \int_{-\infty}^{+\infty}f_{X,Y}(x,x+z)\left|\frac{\partial y}{\partial z}\right|dx \\
+    &=\int_{-\infty}^{+\infty}f_{X,Y}(x,x-z)dx + \int_{-\infty}^{+\infty}f_{X,Y}(x,x+z)dx\\
+    &=\int_{1}^{3}f_{X,Y}(x,x-z)dx + \int_{1}^{3}f_{X,Y}(x,x+z)dx\\
+    &=\int_{\max(1,1+z)}^{3} \frac{1}{4} dx + \int_{1}^{\min(3,3-z)} \frac{1}{4} dx.
+\end{align*}
+当$ 0<z\le 2 $时,
+\begin{align*}
+    f_{Z}(z)&=\int_{1+z}^{3} \frac{1}{4} dx + \int_{1}^{3-z} \frac{1}{4} dx \\
+    &=\frac{3-(1+z)}{4} + \frac{(3-z)-1}{4} \\
+    &=\frac{2-z}{2}.
+\end{align*}
+当$ z>2 $时,
+\begin{align*}
+    f_{Z}(z)&=\int_{3}^{3} \frac{1}{4} dx + \int_{1}^{1} \frac{1}{4} dx \\
+    &=0.
+\end{align*}
+当$ z\le 0 $时, 显然$ f_{Z}(z)=0 $. 综上所述, $ Z $的概率密度为
+\[ f_{Z}(z)=\begin{cases}1-\frac{z}{2}, & 0<z\le 2, \\0, & \text{其他}.\end{cases} \]
+\end{solution}
+
+\begin{problem}
+甲、乙两人进行乒乓球预选赛，预选赛为5局3胜制，且有一方先胜3局比赛就结束.假设每人每局获胜概率相同，求比赛局数的数学期望.
+\end{problem}
+
+\begin{solution}
+设随机变量$ X $表示比赛局数, 则$ X $可能取值为3, 4, 5. 现分别计算$ P(X=3) $, $ P(X=4) $, $ P(X=5) $.
+
+当某一方连胜3局时, 比赛结束. 因此,
+\[ P(X=3) = 2 \times\left(\frac{1}{2}\right)^3 = \frac{1}{4}. \]
+
+当某一方在前3局中赢2局, 第4局获胜时, 比赛结束. 因此,
+\[ P(X=4) = 2 \times C_3^2 \left(\frac{1}{2}\right)^4 = \frac{3}{8}. \]
+
+当某一方在前4局中赢2局, 第5局获胜时, 比赛结束. 因此,
+\[ P(X=5) = 2 \times C_4^2 \left(\frac{1}{2}\right)^5 = \frac{3}{8}. \]
+
+综上所述, 比赛局数的数学期望为
+\begin{align*}
+    E(X)&=3 \times P(X=3) + 4 \times P(X=4) + 5 \times P(X=5) \\
+    &=3 \times \frac{1}{4} + 4 \times \frac{3}{8} + 5 \times \frac{3}{8} \\
+    &=\frac{33}{8}.
+\end{align*}
+\end{solution}
+
+\begin{problem}
+某保险公司打算设立交通事故意外险，若交通事故导致死亡发生，保险公司的赔付额是$m$ 元.据保险公司调查，该险种受众群体发生交通事故死亡的概率为 $p$,要使保险公司期望收益达到赔付金额的 5\%,公司要求客户缴纳的最低保费是多少？
+\end{problem}
+
+\begin{solution}    
+设客户缴纳的保费为$ C $元, 则保险公司的期望收益为
+\begin{align*}
+    E(\text{收益})&=C \times (1 - p) + (C - m) \times p \\
+    &=C - m p.
+\end{align*}
+由题意可知, 保险公司要求期望收益达到赔付金额的 5\%, 即
+\begin{align*}
+    E(\text{收益})&\ge 0.05 m \\
+    C - m p &\ge 0.05 m \\
+    C &\ge m (p + 0.05).
+\end{align*}
+因此, 公司要求客户缴纳的最低保费为$ m (p + 0.05) $元.
+\end{solution}
+
+\begin{problem}
+设随机变量$X$的概率密度
+
+\[f(x)=\begin{cases}x,&0<x\leqslant1,\\2-x,&1<x<2,\\0,&\text{其他,}\end{cases}\]
+
+求$E\left(X\right),E\left(2X+1\right),E\left(\mathrm{~e}^{-X}\right).$
+\end{problem}
+
+\begin{solution}
+计算$ E(X) $:
+\begin{align*}
+    E(X)&=\int_{-\infty}^{+\infty} x f(x) dx \\
+    &=\int_{0}^{1} x^2 dx + \int_{1}^{2} x(2 - x) dx \\
+    &=1.
+\end{align*}
+计算$ E(2X+1) $，由方差的线性性质可得:
+\begin{align*}
+    E(2X+1)&=2E(X) + 1 = 3.
+\end{align*}
+计算$ E(e^{-X}) $:
+\begin{align*}
+    E(e^{-X})&=\int_{-\infty}^{+\infty} e^{-x} f(x) dx \\
+    &=\int_{0}^{1} x e^{-x} dx + \int_{1}^{2} (2 - x) e^{-x} dx \\
+    &=1 - 2 e^{-1} + e^{-2}.
+\end{align*}
+\end{solution}
+\begin{problem}
+设$(X,Y)$的概率密度为 $f(x,y)=\begin{cases}kx,x>0,|y|\leq1-x,\\0,\text{其他}\end{cases}$,$Z=Y+|Y|$,求$Z$的分布。
+\end{problem}
+
+\begin{solution}
+    由归一化条件，
+    \[\iint_D f(x,y) dx dy = 1,\]
+    因此
+    \[\int_0^1\int_{x-1}^{1-x} kx dy dx = 1.\]
+    计算可得$ k=3 $.
+    由题意可得，
+    \[ Z = \begin{cases} 2Y, & Y \ge 0, \\ 0, & Y < 0. \end{cases} \]
+    因此,$Z\ge 0$，于是当$ z < 0 $时, 显然$ f_{Z}(z) = 0, F_Z(z)=0$.
+
+    当$z = 0$时，$P(Z=0)=P(Y<0)=\int_0^1\int_{x-1}^0 3x dy dx=\frac{1}{2}$，因此$F_Z(0)=\frac{1}{2}$.
+
+    当$ z > 0 $时,
+    \[F_{Z}(z)=P(Z\le z)=P(Y< 0)+P(0\le Z\le z)\]
+    因为当$Y\ge0$时，$Z=2Y$，因此
+    \begin{align*}
+        P(0\le Z\le z)&=P\left(0\le Y\le \frac{z}{2}\right) \\
+        &=\int_0^{\frac{z}{2}}\int_0^{1-y} 3x dx dy \\
+        &=\frac{1}{2}[1-(1-\frac{z}{2})^3]
+    \end{align*}
+    因此$F_Z(z)=\frac{1}{2}+\frac{1}{2}[1-(1-\frac{z}{2})^3]=1-\frac{1}{2}(1-\frac{z}{2})^3, f_Z(z)=\frac{3}{4}(1-\frac{z}{2})^2$.
+
+    对于$ z \ge 0 $，有$F_Z(z) = 1, f_Z(z) = 0$.
+
+    综上所述, $ Z $的分布为
+    \[f_{Z}(z)=\begin{cases}0, & z<0, \\ 1-\frac{1}{2}(1-\frac{z}{2})^3, & 0< z < 2, \\ 1, & z \ge 2.\end{cases}\]
+    且在$z=0$处有$P(Z=0)=\frac{1}{2}$.
+\end{solution}
+\end{document}
