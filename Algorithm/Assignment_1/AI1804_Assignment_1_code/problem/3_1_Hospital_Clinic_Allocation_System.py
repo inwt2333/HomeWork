@@ -1,0 +1,52 @@
+"""
+Problem 3-1: Hospital Clinic Allocation System
+EN: Assign patients to k clinics with balanced loads and per-clinic ascending order; when loads tie, choose the smaller clinic index. Finally, merge all clinic queues into one globally sorted queue.
+CN: 将病人分配到 k 个诊室，保持负载均衡且各诊室内部按编号升序；负载相同时优先小编号诊室；最后将各诊室队列合并为一个全局升序队列。
+"""
+
+class HospitalSystem(object):
+	def assign_patients_to_clinics(self, arrivals, k):
+		"""
+		将到达序列中的病人分配到 k 个诊室，保证：
+		1) 负载均衡：任意两个诊室人数之差不超过 1；
+		2) 诊室内按病人编号升序；
+		3) 负载相同时，分配到编号更小的诊室。
+
+		:type arrivals: List[int]
+		:type k: int
+		:rtype: List[List[int]]
+		"""
+		
+
+	def merge_clinic_queues(self, queues):
+		"""
+		使用分治（两两归并）将 k 个已排序的诊室队列合并为一个全局升序队列。
+		目标时间复杂度：O(n log k)。
+
+		:type queues: List[List[int]]
+		:rtype: List[int]
+		"""
+		
+
+	def process_hospital_queue(self, arrivals, k):
+		"""
+		主流程：分配 → 合并 → 返回最终全局队列。
+
+		:type arrivals: List[int]
+		:type k: int
+		:rtype: List[int]
+		"""
+		
+
+
+
+
+        
+
+
+
+    
+
+
+
+
