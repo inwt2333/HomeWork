@@ -21,11 +21,11 @@ def resample(series, tgt_length):
     scale = (n - 1) / (L - 1)
     out = []
     for j in range(L):
-        pos = j * scale              # 映射到原序列的位置（连续）
-        i0 = int(pos)                # 左端点
-        i1 = min(i0 + 1, n - 1)      # 右端点（边界保护）
-        t = pos - i0                 # 线性插值系数 in [0,1)
-        v = (1 - t) * series[i0] + t * series[i1]
+        pos = j * scale
+        left = int(pos)
+        right = min(left + 1, n - 1)
+        t = pos - left
+        v = (1 - t) * series[left] + t * series[right]
         out.append(v)
     return out
 
