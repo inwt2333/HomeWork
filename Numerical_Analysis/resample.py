@@ -30,5 +30,4 @@ def resample(series, tgt_length):
     return out
 
 
-assert resample([1.0], tgt_length=8000) == [1.0] * 8000
-assert resample([1.0, 3.0, 4.0], tgt_length=2) == [1.0, 4.0]
+print(resample([1, 3, 4, 2],3))

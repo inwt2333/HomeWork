@@ -10,4 +10,16 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        
+        def find_peak_helper(arr, left, right):
+            if left == right:
+                return left
+            mid = int((left + right) / 2)
+            if arr[mid] < arr[mid + 1]:
+                return find_peak_helper(arr, mid + 1, right)
+            else:
+                return find_peak_helper(arr, left, mid) 
+
+        if not nums:
+            return -1
+        return find_peak_helper(nums, 0, len(nums) - 1)
+

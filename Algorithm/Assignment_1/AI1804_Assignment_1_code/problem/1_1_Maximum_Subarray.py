@@ -61,10 +61,14 @@ class Solution(object):
             # 实现分治递归
             if left == right:
                 return arr[left]
-            mid = int((left + right) / 2)
-            return max(max_subarray_divide_conquer(arr, left, mid), max_subarray_divide_conquer(arr, mid + 1, right), max_crossing_sum(arr, left, mid, right))
-        
+            mid = (left + right) // 2
+            return max(
+                max_subarray_divide_conquer(arr, left, mid),
+                max_subarray_divide_conquer(arr, mid + 1, right),
+                max_crossing_sum(arr, left, mid, right)
+            )
+
         left = 0
         right = len(arr) - 1
-        return max_subarray_divide_conquer(arr,left,right)
-            
+        return max_subarray_divide_conquer(arr, left, right)
+
