@@ -16,16 +16,6 @@ class HospitalSystem(object):
 		:type k: int
 		:rtype: List[List[int]]
 		"""
-		def binary_search_insert(clinic, patient_id):
-			# 使用二分查找在诊室内插入病人编号，保持升序
-			left, right = 0, len(clinic)
-			while left < right:
-				mid = (left + right) // 2
-				if clinic[mid] < patient_id:
-					left = mid + 1
-				else:
-					right = mid
-			clinic.insert(left, patient_id)
 
 		if not arrivals or k == 0:
 			return []
@@ -33,9 +23,10 @@ class HospitalSystem(object):
 		for patient_id in arrivals:
 			# 找到负载最小的诊室（负载相同时选编号更小的诊室）
 			min_load_clinic_index = min(range(k), key=lambda i: len(self.clinics[i]))
-			# 将病人按编号升序插入该诊室
-			clinic = self.clinics[min_load_clinic_index]
-			binary_search_insert(clinic, patient_id)
+			self.clinics[min_load_clinic_index].append(patient_id)
+
+		for clinic in self.clinics:
+			clinic.sort()  # 确保诊室内按病人编号升序
 		return self.clinics
 		
 
