@@ -16,6 +16,27 @@ class HospitalSystem(object):
 		:type k: int
 		:rtype: List[List[int]]
 		"""
+		def binary_search_insert(clinic, patient_id):
+			# 使用二分查找在诊室内插入病人编号，保持升序
+			left, right = 0, len(clinic)
+			while left < right:
+				mid = (left + right) // 2
+				if clinic[mid] < patient_id:
+					left = mid + 1
+				else:
+					right = mid
+			clinic.insert(left, patient_id)
+
+		if not arrivals or k == 0:
+			return []
+		self.clinics = [[] for _ in range(k)]  # k 个诊室
+		for patient_id in arrivals:
+			# 找到负载最小的诊室（负载相同时选编号更小的诊室）
+			min_load_clinic_index = min(range(k), key=lambda i: len(self.clinics[i]))
+			# 将病人按编号升序插入该诊室
+			clinic = self.clinics[min_load_clinic_index]
+			binary_search_insert(clinic, patient_id)
+		return self.clinics
 		
 
 	def merge_clinic_queues(self, queues):
@@ -26,6 +47,38 @@ class HospitalSystem(object):
 		:type queues: List[List[int]]
 		:rtype: List[int]
 		"""
+		if not queues:
+			return []
+		
+		def _merge_k_queues_divide_conquer(queues, start, end):
+			# 分治法合并队列范围[start, end]
+			if start == end:
+				return queues[start]
+			mid = (start + end) // 2
+			left_merged = _merge_k_queues_divide_conquer(queues, start, mid)
+			right_merged = _merge_k_queues_divide_conquer(queues, mid + 1, end)
+			return _merge_two_queues(left_merged, right_merged)
+		
+		def _merge_two_queues(queue1, queue2):
+			# 合并两个有序队列
+			merged = []
+			l = r = 0
+			while(l < len(queue1) and r < len(queue2)):
+				if queue1[l] < queue2[r]:
+					merged.append(queue1[l])
+					l += 1
+				else:
+					merged.append(queue2[r])
+					r += 1
+			while(l < len(queue1)):
+				merged.append(queue1[l])
+				l += 1
+			while(r < len(queue2)):
+				merged.append(queue2[r])
+				r += 1
+			return merged
+		
+		return _merge_k_queues_divide_conquer(queues, 0, len(queues) - 1)
 		
 
 	def process_hospital_queue(self, arrivals, k):
@@ -36,6 +89,9 @@ class HospitalSystem(object):
 		:type k: int
 		:rtype: List[int]
 		"""
+		clinics = self.assign_patients_to_clinics(arrivals, k)
+		final_queue = self.merge_clinic_queues(clinics)
+		return final_queue
 		
 
 

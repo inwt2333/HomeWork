@@ -96,10 +96,9 @@ class HospitalSystem:
         """
         合并两个有序队列（辅助方法）
         """
-        # TODO: 实现两队列合并
+        # 实现两队列合并
         merged = []
         l = r = 0
-        # print(left, right)
         while(l < len(queue1) and r < len(queue2)):
             if queue1[l].patient_id < queue2[r].patient_id:
                 merged.append(queue1[l])

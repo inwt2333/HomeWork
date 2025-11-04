@@ -28,4 +28,4 @@ class Solution(object):
             hare = nums[hare]
         
         return hare
-        
+    
