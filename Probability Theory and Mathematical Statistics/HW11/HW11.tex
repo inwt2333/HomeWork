@@ -1,0 +1,218 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+
+\title{\textbf{11月5日作业}}
+\author{韩岳成 524531910029}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{题目\arabic{problemname}. }}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\par}
+\newenvironment{note}{\par\noindent\textbf{题目\arabic{problemname}的注记. }}{\par}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+    设由自由流水线加工的某种零件内径$X$(单位：mm)服从正态分布$N(\mu, 1)$，内径小于10mm或大于12mm的零件为次品，销售次品要亏损，已知销售利润$T$(单位：元)与销售零件的内径$X$有如下关系：
+
+    \begin{equation*}
+        T = \begin{cases}
+            -1, & X < 10, \\
+            20, & 10 \leq X \leq 12,\\
+            -5, & X > 12.
+        \end{cases}
+    \end{equation*}
+
+    问平均内径$\mu$为何值时，销售一个零件的平均利润最大？
+\end{problem}
+
+\begin{solution}
+    设销售一个零件的平均利润为$E[T]$，则有
+    \begin{equation*}
+        E[T] = -1 \cdot P(X < 10) + 20 \cdot P(10 \leq X \leq 12) - 5 \cdot P(X > 12).
+    \end{equation*}
+    由于$X \sim N(\mu, 1)$，所以
+    \begin{equation*}
+        P(X < 10) = \Phi(10 - \mu), \quad P(X > 12) = 1 - \Phi(12 - \mu),
+    \end{equation*}
+    其中$\Phi(x)$为标准正态分布的分布函数。因此
+    \begin{align*}
+        E[T] &= -1 \cdot \Phi(10 - \mu) + 20 \cdot [\Phi(12 - \mu) - \Phi(10 - \mu)] - 5 \cdot [1 - \Phi(12 - \mu)] \\
+        &= 25\Phi(12 - \mu) - 21\Phi(10 - \mu) - 5.
+    \end{align*}
+    为了使$E[T]$最大，只需使$25\Phi(12 - \mu) - 21\Phi(10 - \mu)$最大。对$\mu$求导，有
+    \begin{equation*}
+        \frac{dE[T]}{d\mu} = 25\phi(12 - \mu) - 21\phi(10 - \mu),
+    \end{equation*}
+    其中$\phi(x)$为标准正态分布的概率密度函数。令$\frac{dE[T]}{d\mu} = 0$，解得
+    \begin{equation*}
+        25\phi(12 - \mu) = 21\phi(10 - \mu).
+    \end{equation*}
+    将$\phi(x) = \frac{1}{\sqrt{2\pi}} e^{-\frac{x^2}{2}}$代入，得到
+    \begin{equation*}
+        25 e^{-\frac{(12 - \mu)^2}{2}} = 21 e^{-\frac{(10 - \mu)^2}{2}}.
+    \end{equation*}
+    解得
+    \begin{equation*}   
+        \mu = 11 - \frac{1}{2} \ln \frac{25}{21}.
+    \end{equation*}
+    因此，当平均内径$\mu = 11 - \frac{1}{2} \ln \frac{21}{25}\approx 10.91\text{mm}$时，销售一个零件的平均利润最大。
+\end{solution}
+
+\begin{problem}
+    设随机变量$X$ 与 $Y$相互独立$,X\sim U(0,1),Y$ 的概率密度为
+    \[f_Y(y)=\begin{cases}\mathrm{e}^{-(y-5)},&\quad y>5,\\0,&\quad\text{其他,}\end{cases}\]
+    求$E\left(XY\right),D\left(XY\right),D\left(2X-Y\right).$
+\end{problem}
+
+\begin{solution}
+由于$X\sim U(0,1)$，因此X的概率密度函数为
+\begin{equation*}
+f_X(x)=\begin{cases}
+1,&0<x<1,\\
+0,&\text{其他}.
+\end{cases}
+\end{equation*}
+从而
+\[E(X)=\int_{-\infty}^{+\infty}xf_X(x)dx=\int_0^1xdx=\frac{1}{2}.\]
+\[E(X^2)=\int_{-\infty}^{+\infty}x^2f_X(x)dx=\int_0^1x^2dx=\frac{1}{3}.\]
+\[D(X)=E(X^2)-[E(X)]^2=\frac{1}{12}.\]
+由\[f_Y(y)=\begin{cases}\mathrm{e}^{-(y-5)},&\quad y>5,\\0,&\quad\text{其他,}\end{cases}\]
+可得
+\[E(Y)=\int_{-\infty}^{+\infty}yf_Y(y)dy=\int_5^{+\infty}y\mathrm{e}^{-(y-5)}dy=6.\]
+\[E(Y^2)=\int_{-\infty}^{+\infty}y^2f_Y(y)dy=\int_5^{+\infty}y^2\mathrm{e}^{-(y-5)}dy=37.\]
+\[D(Y)=E(Y^2)-[E(Y)]^2=1.\]
+由于X与Y相互独立，因此
+\[E(XY)=E(X)E(Y)=3.\]
+\[D(XY)=E(X^2Y^2)-[E(XY)]^2=E(X^2)E(Y^2)-[E(XY)]^2=\frac{10}{3}.\]
+\[D(2X-Y)=4D(X)+D(Y)=\frac{4}{3}.\]
+
+\end{solution}
+
+\begin{problem}
+设随机变量$X$与$Y$相互独立，它们的概率密度分别是
+\[f_X(x)=\frac{1}{2\sqrt{\pi}}\mathrm{e}^{\frac{-x^2+2x-1}{4}},-\infty<x<+\infty,\]
+\[f_Y(y)=\frac{1}{\sqrt{2\pi}}\mathrm{e}^{-(0.5y^2+2y+2)}\:,-\infty<y<+\infty,\]
+
+设随机变量 $Z=2X-Y+8$,求 $Z$ 的数学期望和方差.
+\end{problem}
+
+\begin{solution}
+由
+\[f_X(x)=\frac{1}{2\sqrt{\pi}}\mathrm{e}^{\frac{-x^2+2x-1}{4}},-\infty<x<+\infty,\]
+可知$X\sim N(1,2)$，因此
+\[E(X)=1,\quad D(X)=2.\]
+由
+\[f_Y(y)=\frac{1}{\sqrt{2\pi}}\mathrm{e}^{-(0.5y^2+2y+2)}\:,-\infty<y<+\infty,\]
+可知$Y\sim N(-2,1)$，因此
+\[E(Y)=-2,\quad D(Y)=1.\]
+由于$X$与$Y$相互独立，因此
+\[E(Z)=E(2X-Y+8)=2E(X)-E(Y)+8=12,\]
+\[D(Z)=D(2X-Y+8)=4D(X)+D(Y)=9.\]
+\end{solution}
+
+\begin{problem}
+22.设连续型随机变量$X$ 的一切可能取值在区间$[a,b]$内，且其概率密度为$f(x)$.证明：
+
+(1)$a\leqslant E\left ( X\right ) \leqslant b$；
+
+(2)$D(X)\leqslant\frac{(b-a)^2}4.$
+\end{problem}
+
+\begin{solution}
+(1)由于$X$的取值在$[a,b]$内，因此对任意$x\in[a,b]$，都有$a\leqslant x\leqslant b$.两边同时乘以$f(x)$，并对$x$在$[a,b]$上积分，得到
+\[\int_a^b af(x)dx\leqslant\int_a^b xf(x)dx\leqslant\int_a^b bf(x)dx.\]
+由于$f(x)$是概率密度函数，因此$\int_a^b f(x)dx=1$，从而
+\[a\leqslant E(X)\leqslant b.\]
+(2)由方差的性质可知
+\[D(X)\le E[(X-c)^2]\]
+对任意常数$c$成立。取$c=\frac{a+b}2$，则
+\begin{align*}
+D(X)&\le E\left[\left(X-\frac{a+b}2\right)^2\right]\\
+&=\int_a^b\left(x-\frac{a+b}2\right)^2f(x)dx\\
+&\le\int_a^b\left(\frac{b-a}2\right)^2f(x)dx\\
+&=\left(\frac{b-a}2\right)^2\int_a^bf(x)dx\\
+&=\left(\frac{b-a}2\right)^2.
+\end{align*}
+\end{solution}
+
+\begin{problem}
+设随机变量$X,Y$相互独立,且$X\sim U(1,3)$,$Y\sim N(0,1)$,计算$D(XY)$.
+\end{problem}
+
+\begin{solution}
+由于$X\sim U(1,3)$，因此X的概率密度函数为
+\begin{equation*}
+f_X(x)=\begin{cases}
+\frac{1}{2},&1<x<3,\\
+0,&\text{其他}.
+\end{cases}
+\end{equation*}
+从而
+\[E(X)=\int_{-\infty}^{+\infty}xf_X(x)dx=\int_1^3\frac{x}{2}dx=2.\]
+\[E(X^2)=\int_{-\infty}^{+\infty}x^2f_X(x)dx=\int_1^3\frac{x^2}{2}dx=\frac{13}{3}.\]
+\[D(X)=E(X^2)-[E(X)]^2=\frac{1}{3}.\]
+由于$Y\sim N(0,1)$，因此
+\[E(Y)=0,\quad D(Y)=1,\quad E(Y^2)=D(Y)+[E(Y)]^2=1.\]
+由于X与Y相互独立，因此
+\[D(XY)=E(X^2Y^2)-[E(XY)]^2]=E(X^2)E(Y^2)-[E(X)E(Y)]^2=\frac{13}{3}.\]
+\end{solution}
+
+\begin{problem}
+设$X\sim E(0.5),Y=\max(X,2)$，求$E(Y),E\left(Y^2\right)$.
+\end{problem}
+
+\begin{solution}
+由于$X\sim E(0.5)$，因此X的概率密度函数为
+\begin{equation*}
+f_X(x)=\begin{cases}
+0.5e^{-0.5x},&x>0,\\
+0,&\text{其他}.
+\end{cases}
+\end{equation*}
+从而
+\begin{align*}
+E(Y)&=\int_{-\infty}^{+\infty}yf_Y(y)dy\\
+&=\int_2^{+\infty}y\cdot 0.5e^{-0.5y}dy+2\cdot P(X\le2)\\
+&=\int_2^{+\infty}y\cdot 0.5e^{-0.5y}dy+2\left(1-e^{-1}\right)\\
+&=2+2e^{-1}.
+\end{align*}
+\begin{align*}
+E\left(Y^2\right)&=\int_{-\infty}^{+\infty}y^2f_Y(y)dy\\
+&=\int_2^{+\infty}y^2\cdot 0.5e^{-0.5y}dy+4\cdot P(X\le2)\\
+&=\int_2^{+\infty}y^2\cdot 0.5e^{-0.5y}dy+4\left(1-e^{-1}\right)\\
+&=4+16e^{-1}.
+\end{align*}
+\end{solution}
+
+\begin{problem}
+设随机变量X的概率密度为
+\[f(x)=\frac{1}{2}e^{-|x-3|},-\infty<x<+\infty \]
+$Z$表示对$X$进行的 6 次独立观察中事件$\{X>3\}$出现的次数，求$D(X),E(Z),D(Z).$
+\end{problem}
+
+\begin{solution}
+由于$X$的概率密度函数为
+\[f(x)=\frac{1}{2}e^{-|x-3|},-\infty<x<+\infty \]
+因此
+\begin{align*}
+E(X)&=\int_{-\infty}^{+\infty}xf(x)dx\\
+&=\int_{-\infty}^{3}x\cdot\frac{1}{2}e^{-(3-x)}dx+\int_{3}^{+\infty}x\cdot\frac{1}{2}e^{-(x-3)}dx\\
+&=1+2=3
+\end{align*}
+\begin{align*}
+E(X^2)&=\int_{-\infty}^{+\infty}x^2f(x)dx\\
+&=\int_{-\infty}^{3}x^2\cdot\frac{1}{2}e^{-(3-x)}dx+\int_{3}^{+\infty}x^2\cdot\frac{1}{2}e^{-(x-3)}dx\\
+&=\frac52+\frac{17}{2}=11
+\end{align*}
+因此
+\[D(X)=E(X^2)-[E(X)]^2=11-9=2.\]
+由于$Z$表示对$X$进行的 6 次独立观察中事件$\{X>3\}$出现的次数，因此$Z$服从参数为6的伯努利分布，其中成功的概率为
+\[ p = P(X>3) = \int_{3}^{+\infty}f(x)dx=\int_{3}^{+\infty}\frac{1}{2}e^{-(x-3)}dx=\frac{1}{2}.\]
+因此
+\[E(Z)=6P(X>3)=3,\quad D(Z)=6P(X>3)(1-P(X>3))=\frac{3}{2}.\]
+\end{solution}
+\end{document}
