@@ -1,0 +1,171 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+
+\title{\textbf{11月9日作业}}
+\author{韩岳成 524531910029}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{题目\arabic{problemname}. }}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\par}
+\newenvironment{note}{\par\noindent\textbf{题目\arabic{problemname}的注记. }}{\par}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+两个长直平行导线，相距 2$d$,通有相等相反的电流，电流强度为 $I.$ 取如下图所示的坐标，求距坐标原点为$x$的$P$点处的磁感应强度$B$,并作$B-x$曲线.
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{image-1.png}
+\end{center}
+\end{problem}
+
+\begin{solution}
+    两根无限长直导线通电，电流方向相反，设电流强度为 $I$。根据安培定律，导线产生的磁感应强度大小为
+\[
+B = \frac{\mu_0 I}{2\pi r}
+\]
+其中，$r$ 是导线到测量点的距离，$\mu_0$ 是真空磁导率。
+
+当$-d< x < d$时，点$P$到两根导线的距离分别为$r_1 = d + x$和$r_2 = d - x$。由于电流方向相反，两个磁场在点$P$处的方向相同，因此总磁感应强度为
+\[
+B = B_1 + B_2 = \frac{\mu_0 I}{2\pi (d + x)} + \frac{\mu_0 I}{2\pi (d - x)} = \frac{\mu_0 I}{\pi} \cdot \frac{d}{d^2 - x^2}
+\]
+
+当$x > d$时，点$P$到两根导线的距离分别为$r_1 = x - d$和$r_2 = x + d$。由于电流方向相反，两个磁场在点$P$处的方向相反，因此总磁感应强度为
+\[
+B = B_1 - B_2 = \frac{\mu_0 I}{2\pi (x + d)} - \frac{\mu_0 I}{2\pi (x - d)} = -\frac{\mu_0 I}{\pi} \cdot \frac{d}{x^2 - d^2}
+\]
+
+当$x < -d$时，点$P$到两根导线的距离分别为$r_1 = -x - d$和$r_2 = -x + d$。由于电流方向相反，两个磁场在点$P$处的方向相反，因此总磁感应强度为
+\[
+B = B_1 - B_2 = \frac{\mu_0 I}{2\pi (-x + d)} - \frac{\mu_0 I}{2\pi (-x - d)} = -\frac{\mu_0 I}{\pi} \cdot \frac{d}{x^2 - d^2}
+\]
+
+B-x曲线如下所示：
+\begin{center}
+    \includegraphics[width=0.6\textwidth]{image-2.png}
+\end{center}
+\end{solution}
+
+\begin{problem}
+一外层绝缘的长直导线弯成如下图所示的形状，其中圆的半径为R。当通以电流强度$I$时，计算圆心$O$处的磁感应强度$B$.
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{image-3.png}
+\end{center}
+\end{problem}
+
+\begin{solution}
+    圆心O处的磁感应强度可以视为由两部分贡献：直线段产生的磁场和圆弧段产生的磁场。
+    直线段在O点产生的磁感应强度为：
+\[B_{\text{直线}} = \frac{\mu_0 I}{4\pi R}\]
+    圆弧段在O点产生的磁感应强度为：
+\[B_{\text{圆弧}} = \frac{\mu_0 I}{2 R}\]
+    因为直线段和圆弧段的磁场方向相同，所以总磁感应强度为：  
+\[B = B_{\text{直线}} + B_{\text{圆弧}} = \frac{\mu_0 I}{4\pi R} + \frac{\mu_0 I}{2 R} = \frac{\mu_0 I}{4\pi R} \left(1 + 2\pi\right)\]
+\end{solution}
+
+\begin{problem}
+如下图所示，有两个平行共轴放置的圆线圈。线圈的半径为R，两者相距亦为R，均绕有N匝，通过相等同向的电流I（亥姆霍兹线圈）。试计算两线圈轴线中点P处的磁感应强度B。
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{image-4.png}
+\end{center}
+\end{problem}
+
+\begin{solution}
+    亥姆霍兹线圈由两个相距为R的同向电流圆线圈组成。每个线圈在轴线中点P处产生的磁感应强度为：
+\[B_{\text{单线圈}} = \frac{\mu_0 N I R^2}{2(R^2 + (R/2)^2)^{3/2}} = \frac{\mu_0 N I R^2}{2\left(\frac{5R^2}{4}\right)^{3/2}} = \frac{4\mu_0 N I}{5\sqrt{5} R}\]
+    由于两个线圈的磁场方向相同，因此总磁感应强度为：
+\[B = 2 B_{\text{单线圈}} = \frac{8\mu_0 N I}{5\sqrt{5} R}\]
+\end{solution}
+
+\begin{problem}
+如下图所示，有一长直导体薄板，宽度为 $b$,有电流强度 $I$均匀通过薄板，方向垂直纸面向内.计算位于薄板左方 $x_{_0}$处 $P$点的磁感应强度 $B.$
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{image-5.png}
+\end{center}
+\end{problem}
+
+\begin{solution}
+    设薄板的电流密度为
+\[J = \frac{I}{b}\]
+    取薄板上一个宽度为$dx$的微元，其位置为$x$，则该微元产生的磁感应强度$dB$在点$P$处为：
+\[dB = \frac{\mu_0 J dx}{2\pi (x_0 + x)} = \frac{\mu_0 I}{2\pi b} \cdot \frac{dx}{x_0 + x}\]
+    积分范围为$x$从$0$到$b$，则总磁感应强度为：
+\[B = \int_0^b dB = \frac{\mu_0 I}{2\pi b} \int_0^b \frac{dx}{x_0 + x} = \frac{\mu_0 I}{2\pi b} \ln\left(\frac{x_0 + b}{x_0}\right)\]
+    方向向上。
+\end{solution}
+
+\begin{problem}
+有内外半径分别为 $R_1$和 $R_2$的沿平面密绕线圈(见下图),线圈共 $N$匝，若通以电流$I$,求圆环中心$O$点的磁感应强度值.
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{image-6.png}
+\end{center}
+\end{problem}
+
+\begin{solution}
+    单位长度的线圈匝数为
+    \[ n = \frac{N}{R_2 - R_1} \]
+    取半径为$r$的微小圆环厚度为$dr$，其产生的磁感应强度$dB$在中心O点处为：
+    \[ dB = \frac{\mu_0 I n}{2 r} dr \]
+    积分范围为$r$从$R_1$到$R_2$，则
+    圆环中心O点的磁感应强度为：
+    \[B = \int_{R_1}^{R_2} \frac{\mu_0 I n}{2 r} dr = \frac{\mu_0 I N}{2 (R_2 - R_1)} \int_{R_1}^{R_2} \frac{1}{r} dr = \frac{\mu_0 I N}{2 (R_2 - R_1)} \ln\left(\frac{R_2}{R_1}\right)\]
+\end{solution}
+
+\begin{problem}
+按经典理论，氢原子中电子绕核作匀速圆周运动，已知电子电量$e=-1.60\times10^{-19}$C，质量为$m_e=9.1\times10^{-31}$ kg，轨迹半径$r=5.3\times10^{-11}$ m.
+
+(1)计算电子绕核运动所产生的磁矩；
+
+(2)求电子在圆心处产生的磁感应强度$B$.
+\end{problem}
+
+\begin{solution}
+(1) 电子绕核运动的电流$I$为：
+\[I = \frac{e}{T} = \frac{e v}{2\pi r}\]
+其中，$v$为电子的速度，$T$为周期。电子的速度可以通过向心力公式计算：
+\[\frac{m_e v^2}{r} = \frac{1}{4\pi \epsilon_0} \cdot \frac{e^2}{r^2}\]
+解出$v$：
+\[v = \sqrt{\frac{e^2}{4\pi \epsilon_0 m_e r}}\]
+将$v$代入$I$的表达式中，得到：
+\[I = \frac{e}{2\pi r} \sqrt{\frac{e^2}{4\pi \epsilon_0 m_e r}} = \frac{e^{2}}{4\pi r^{3/2} \sqrt{\pi \epsilon_0 m_e}}\]
+电子绕核运动产生的磁矩$\mu$为：
+\[\mu = I \cdot A = I \cdot \pi r^2 = \frac{e^{2} \sqrt{r}}{4 \sqrt{\pi \epsilon_0 m_e}}\]
+代入数据得
+\[\mu \approx 9.26 \times 10^{-24} \, \text{A·m}^2\]
+
+(2) 电子在圆心处产生的磁感应强度$B$为：
+\[B = \frac{\mu_0 I}{2 r} = \frac{\mu_0 e^{2}}{8\pi r^{5/2} \sqrt{\pi \epsilon_0 m_e}}\]
+代入数据得
+\[B \approx 12.44 \, \text{T}\]
+\end{solution}
+
+\begin{problem}
+在半径为 $R$ 的无限长直导体薄圆筒中心轴上放一长直导体芯线（见下图），在芯线与筒壳上通有方向相反的电流$I$.试计算筒内外的磁感应强度$B$.
+\begin{center}
+    \includegraphics[width=0.4\textwidth]{image-7.png}
+\end{center}
+\end{problem}
+
+\begin{solution}
+对于筒内一点$r < R$，根据安培定律，芯线产生的磁感应强度为：
+\[B_{\text{芯线}} = \frac{\mu_0 I}{2\pi r}\]
+筒壳产生的磁感应强度为：
+\[B_{\text{筒壳}} = 0\]
+因此，筒内的总磁感应强度为：
+\[B_{\text{内}} = B_{\text{芯线}} + B_{\text{筒壳}} = \frac{\mu_0 I}{2\pi r}\]
+
+对于筒外一点$r > R$，我们可以选择一个半径为$r$且与中心轴同心的圆形路径。
+
+这个半径为 $r$ 的圆形路径同时包围了中心的芯线和外层的圆筒壳。芯线的电流为$I$。圆筒壳的电流大小也为 $I$，但方向相反。
+
+因此，穿过该环路的总净电流为：
+
+\[I_{\text{enc}} = I + (-I) = 0。\]
+再应用安培定律得到筒外的磁感应强度为：
+\[B_{\text{外}} = 0。\]
+\end{solution}
+\end{document}
