@@ -168,4 +168,82 @@ B-x曲线如下所示：
 再应用安培定律得到筒外的磁感应强度为：
 \[B_{\text{外}} = 0。\]
 \end{solution}
+
+\begin{problem}
+一圆柱形无限长导体，磁导率为$\mu$,半径为$R$,通有沿轴线方向的均匀电流$I$,求
+
+(1)导体内任一点的$\mathbf{H},\mathbf{B}$和$\mathbf{M}$.
+
+(2)导体外任一点的$\mathbf{H}$和$\mathbf{B}$.
+
+\end{problem}
+
+\begin{solution}
+(1) 导体内任一点$r < R$，根据安培定律，磁场强度$\mathbf{H}$为：
+\[\mathbf{H} = \frac{I_{\text{enc}}}{2\pi r} \hat{\phi}\]
+其中，$I_{\text{enc}} = I \cdot \frac{\pi r^2}{\pi R^2} = I \cdot \frac{r^2}{R^2}$是穿过半径$r$的面积的电流。因此，
+\[\mathbf{H} = \frac{I r}{2\pi R^2} \hat{\phi}\]
+磁感应强度$\mathbf{B}$为：
+\[\mathbf{B} = \mu \mathbf{H} = \frac{\mu I r}{2\pi R^2} \hat{\phi}\]   
+磁化强度$\mathbf{M}$为：
+\[\mathbf{M} = \left(\frac{\mu}{\mu_0}-1\right)\mathbf{H}=\left(\frac{\mu}{\mu_0}-1\right)\frac{I r}{2\pi R^2} \hat{\phi}\]
+
+(2) 导体外任一点$r > R$，根据安培定律，磁场强度$\mathbf{H}$为：
+\[\mathbf{H} = \frac{I}{2\pi r} \hat{\phi}\]
+磁感应强度$\mathbf{B}$为：
+\[\mathbf{B} = \mu \mathbf{H} = \frac{\mu I}{2\pi r} \hat{\phi}\]
+\end{solution}
+
+\begin{problem}
+螺绕环平均周长$l=10$ cm,环上绕有线圈$N=200$匝，通有电流$I=100$ mA. 试求
+
+(1)管内为空气时，$B$和$H$的大小；
+
+(2)若管内充满相对磁导率$\mu_\mathrm{r}=4200$的磁介质，$B$和$H$的大小.
+\end{problem}
+
+\begin{solution}
+(1) 管内为空气时，磁场强度$H$为：
+\[H = \frac{N I}{l} = \frac{200 \times 0.1}{0.1} = 200 \, \text{A/m}\]
+磁感应强度$B$为：
+\[B = \mu_0 H = 4\pi \times 10^{-7} \times 200 = 8 \pi \times 10^{-5} \, \text{T}\]
+
+(2) 管内充满相对磁导率$\mu_\mathrm{r}=4200$的磁介质时，磁场强度$H$仍为：
+\[H = \frac{N I}{l} = 200 \, \text{A/m}\]
+磁感应强度$B$为：
+\[B = \mu_0 \mu_\mathrm{r} H = 4\pi \times 10^{-7} \times 4200 \times 200 = 336 \pi \times 10^{-3} \, \text{T}\]
+\end{solution}
+
+\begin{problem}
+一沿棒长方向均匀磁化的圆柱形介质棒，直径为 2.5 cm,长为 7.5 cm, 其总磁矩为 1.2$\times10^4$ A·m$^2$, 求棒中的磁化强度 $M$ 和棒的圆柱表面上的磁化电流线密度$\alpha^\prime$,以及棒内中点的 $\boldsymbol{B}.$
+\end{problem}
+\begin{solution}
+磁化强度 $M$ 定义为：
+\[
+M = \frac{m_\text{tot}}{V}
+\]
+其中 $V$ 为圆柱体积：
+\[
+V = \pi r^2 L = \pi \left(\frac{d}{2}\right)^2 L = \pi (0.0125)^2 \cdot 0.075 \approx 3.68 \times 10^{-5}\ \mathrm{m^3}.
+\]
+因此磁化强度为：
+\[
+M = \frac{1.2 \times 10^4}{3.68 \times 10^{-5}} \approx 3.26 \times 10^8\ \mathrm{A/m}.
+\]
+
+磁化电流线密度 $\alpha'$ 为：
+\[
+\alpha' = M = 3.26 \times 10^8\ \mathrm{A/m}.
+\]
+
+在中点，磁感应强度为：
+\[
+\mathbf{B} = \mu_0 (\mathbf{H} + \mathbf{M}).
+\]
+由于圆柱内部磁场 $\mathbf{H} \approx 0$，因此：
+\[
+\mathbf{B} \approx \mu_0 M = (4\pi \times 10^{-7}) \times 3.26 \times 10^8 \approx 4.10 \times 10^2\ \mathrm{T}.
+\]
+
+\end{solution}
 \end{document}
