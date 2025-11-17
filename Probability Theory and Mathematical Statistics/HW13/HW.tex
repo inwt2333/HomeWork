@@ -1,0 +1,213 @@
+\documentclass[12pt, a4paper, oneside]{ctexart}
+\usepackage{amsmath, amsthm, amssymb, bm, color, framed, graphicx, hyperref, mathrsfs}
+
+\title{\textbf{11月14日作业}}
+\author{韩岳成 524531910029}
+\date{\today}
+\linespread{1.5}
+\definecolor{shadecolor}{RGB}{241, 241, 255}
+\newcounter{problemname}
+\newenvironment{problem}{\begin{shaded}\stepcounter{problemname}\par\noindent\textbf{题目\arabic{problemname}. }}{\end{shaded}\par}
+\newenvironment{solution}{\par\noindent\textbf{解答. }}{\par}
+\newenvironment{note}{\par\noindent\textbf{题目\arabic{problemname}的注记. }}{\par}
+
+\begin{document}
+
+\maketitle
+
+\begin{problem}
+    设二维随机变量(X,Y)的联合概率密度为
+\[f(x,y)= \begin{cases} e^{-(x+y)}, & x>0, y>0, \\ 0, & \text{其他,} \end{cases}\]
+
+求$ E(X)$, $E(Y)$, $D(X)$, $D(Y)$, $\mathrm{cov}(X,Y)$, $\rho_{XY}$ 及 $(X,Y)$ 的协方差矩阵 $C$.
+\end{problem}
+
+\begin{solution}
+    \[ E(X)=\int_0^{+\infty} \int_0^{+\infty} x e^{-(x+y)} \mathrm{d}x \mathrm{d}y = \int_0^{+\infty} x e^{-x} \mathrm{d}x \int_0^{+\infty} e^{-y} \mathrm{d}y = 1. \]
+    同理 $E(Y)=1$.
+    \[E(X^2)=\int_0^{+\infty} \int_0^{+\infty} x^2 e^{-(x+y)} \mathrm{d}x \mathrm{d}y = \int_0^{+\infty} x^2 e^{-x} \mathrm{d}x \int_0^{+\infty} e^{-y} \mathrm{d}y = 2.\]
+    \[D(X)=E(X^2)-[E(X)]^2=2-1=1.\]
+    同理 $D(Y)=1$.
+    \[\mathrm{cov}(X,Y)=E(XY)-E(X)E(Y)=\int_0^{+\infty} \int_0^{+\infty} xy e^{-(x+y)} \mathrm{d}x \mathrm{d}y - 1 = 1 - 1 = 0.\]
+    \[\rho_{XY}=\frac{\mathrm{cov}(X,Y)}{\sqrt{D(X)D(Y)}}=\frac{0}{\sqrt{1 \cdot 1}}=0.\]
+    \[C=\begin{pmatrix} D(X) & \mathrm{cov}(X,Y) \\ \mathrm{cov}(X,Y) & D(Y) \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}.\]
+\end{solution}
+
+\begin{problem}
+设二维随机变量$(X,Y)$的协方差矩阵为$\begin{pmatrix}1&2\\2&5\end{pmatrix}$,令$U=X-2Y,V=2X-Y$,求$\rho_{UV}.$
+\end{problem}
+
+\begin{solution}
+    由协方差矩阵可知 $D(X)=1, D(Y)=5, \mathrm{cov}(X,Y)=2$.
+    先计算 $D(U), D(V), \mathrm{cov}(U,V)$:
+    \[ D(U)=D(X-2Y)=D(X)+4D(Y)-4\mathrm{cov}(X,Y)= 13. \]
+    \[ D(V)=D(2X-Y)=4D(X)+D(Y)-4\mathrm{cov}(X,Y)= 1. \]
+    \[ \mathrm{cov}(U,V)=\mathrm{cov}(X-2Y,2X-Y)=2D(X)-5\mathrm{cov}(X,Y)+2D(Y) = 2. \]
+    因此
+    \[ \rho_{UV}=\frac{\mathrm{cov}(U,V)}{\sqrt{D(U)D(V)}}=\frac{2}{\sqrt{13}}. \]
+\end{solution}
+
+\begin{problem}
+设 $\{X_{n}\}$ ($n\geqslant 1$) 为相互独立的随机变量序列, 且其分布律为
+
+\begin{tabular}{|c|c|c|}
+\hline
+$X_{n}$ & $-\sqrt{\ln n}$ & $\sqrt{\ln n}$ \\
+\hline
+$P$ & 0.5 & 0.5 \\
+\hline
+\end{tabular}
+
+其中 $n=1,2,\cdots$, 证明 $\{X_{n}\}$ 服从大数定律.
+\end{problem}
+
+\begin{solution}
+    由于 $E(X_n)=0$, $D(X_n)=(\sqrt{\ln n})^2= \ln n$,
+    $$E\left(\frac{1}{n}\sum_{i=1}^{n}X_{i}\right)=\frac{1}{n}\sum_{i=1}^{n}E(X_{i})=0,$$
+    由$\{X_{n}\}(n\geq1)$为相互独立的随机变量序列, 得
+    $$
+    D\left(\frac{1}{n}\sum_{i=1}^{n}X_{i}\right)=\frac{1}{n^{2}}\sum_{i=1}^{n}D(X_{i})=\frac{1}{n^{2}}\sum_{i=1}^{n}\ln i\leq\frac{\ln n}{n},$$
+    则对$\forall\varepsilon>0$, 有
+    $$1\geq P\left(\left|\frac{1}{n}\sum_{i=1}^{n}X_{i}-\frac{1}{n}\sum_{i=1}^{n}E(X_{i})\right|<\varepsilon\right)\geq1-\frac{D\left(\frac{1}{n}\sum_{i=1}^{n}X_{i}\right)}{\varepsilon^{2}}\geq1-\frac{\ln n}{n\varepsilon^{2}},$$
+    由$\lim_{n\rightarrow\infty}\frac{\ln n}{n}=0$,从而
+    $$
+    \lim_{n\rightarrow\infty}P\left(\left|\frac{1}{n}\sum_{i=1}^{n}X_{i}-\frac{1}{n}\sum_{i=1}^{n}E(X_{i})\right|<\varepsilon\right)=1,$$
+    所以$\{X_{n}\}$服从大数定律.
+\end{solution}
+
+\begin{problem}
+    设$\{X_n\}(n\geq1)$为独立同分布的随机变量序列, 且$X_n\sim U(a,b)$, $f(x)$是$(a,b)$上的连续函数, 证明当$n\to\infty$时, $\frac{b-a}{n}\sum_{i=1}^{n}f(X_i)$依概率收敛于$\int_{a}^{b}f(x)dx$.
+\end{problem}
+
+\begin{solution}
+    由于$X_n\sim U(a,b)$, 则$E(X_n)=\frac{a+b}{2}$, $D(X_n)=\frac{(b-a)^2}{12}$.
+    由$f(x)$在$(a,b)$上连续, 故$f(X_n)$也是独立同分布的随机变量序列, 且
+    $$E(f(X_n))=\int_{a}^{b}f(x)\frac{1}{b-a}dx=\frac{1}{b-a}\int_{a}^{b}f(x)dx,$$
+    $$D(f(X_n))=\int_{a}^{b}f^2(x)\frac{1}{b-a}dx-\left(\frac{1}{b-a}\int_{a}^{b}f(x)dx\right)^2<+\infty.$$
+    由大数定律可知, 对$\forall\varepsilon>0$, 有
+    $$\lim_{n\to\infty}P\left(\left|\frac{1}{n}\sum_{i=1}^{n}f(X_i)-E(f(X_i))\right|<\varepsilon\right)=1,$$
+    即
+    $$\lim_{n\to\infty}P\left(\left|\frac{1}{n}\sum_{i=1}^{n}f(X_i)-\frac{1}{b-a}\int_{a}^{b}f(x)dx\right|<\varepsilon\right)=1,$$
+    故
+    $$\lim_{n\to\infty}P\left(\left|\frac{b-a}{n}\sum_{i=1}^{n}f(X_i)-\int_{a}^{b}f(x)dx\right|<(b-a)\varepsilon\right)=1,$$
+    因此当$n\to\infty$时, $\frac{b-a}{n}\sum_{i=1}^{n}f(X_i)$依概率收敛于$\int_{a}^{b}f(x)dx$.
+\end{solution}
+
+\begin{problem}
+设随机变量序列 $X_{1}, X_{2}, \cdots, X_{n}, \cdots$ 服从方差有限的同一分布, 且当 $|j-i| \geq 2$ 时, $X_{j}$ 与 $X_{i}$ 相互独立, 证明 $\forall \varepsilon > 0$,
+$$\lim _{n \rightarrow \infty} P\left(\left|\frac{1}{n} \sum_{i=1}^{n} X_{i}-\mu\right|<\varepsilon\right)=1,$$
+其中 $\mu=E\left(X_{i}\right), D\left(X_{i}\right)=\sigma^{2}<+\infty, i=1,2, \cdots$
+\end{problem}
+
+\begin{solution}
+    由于 $D(X_i)=\sigma^2<+\infty$, 则
+    \[
+    E\left(\frac{1}{n} \sum_{i=1}^{n} X_{i}\right)=\frac{1}{n} \sum_{i=1}^{n} E\left(X_{i}\right)=\mu.
+    \]
+    由 $X_j$ 与 $X_i$ 相互独立当 $|j-i| \geq 2$ 可知
+    \[
+    D\left(\frac{1}{n} \sum_{i=1}^{n} X_{i}\right)=\frac{1}{n^{2}} \left[\sum_{i=1}^{n} D\left(X_{i}\right)+2 \sum_{i=1}^{n-1} \mathrm{cov}\left(X_{i}, X_{i+1}\right)\right] \leq \frac{1}{n^{2}} \left[n \sigma^{2}+2(n-1) \sigma^{2}\right]=\frac{3 \sigma^{2}}{n}.
+    \]
+    因此, 对 $\forall \varepsilon>0$, 有
+    \[
+    1 \geq P\left(\left|\frac{1}{n} \sum_{i=1}^{n} X_{i}-\mu\right|<\varepsilon\right) \geq 1-\frac{D\left(\frac{1}{n} \sum_{i=1}^{n} X_{i}\right)}{\varepsilon^{2}} \geq 1-\frac{3 \sigma^{2}}{n \varepsilon^{2}},
+    \]
+    由 $\lim _{n \rightarrow \infty} \frac{3 \sigma^{2}}{n \varepsilon^{2}}=0$, 从而
+    \[
+    \lim _{n \rightarrow \infty} P\left(\left|\frac{1}{n} \sum_{i=1}^{n} X_{i}-\mu\right|<\varepsilon\right)=1,
+    \]
+    即证.
+\end{solution}
+
+\begin{problem}
+设随机变量$X,Y$相互独立，X服从参数为1的指数分布，$P(Y=-1)=p,P(Y=1)=1-p(0<p<1)$,令$Z=XY$
+
+(1) 求$Z$的概率密度.
+
+(2) $p$为何值时，$X$与$Z$不相关?
+
+(3) $X$与$Z$否相互独立，请给出理由.
+\end{problem}
+
+\begin{solution}
+由X服从参数为1的指数分布，则$X$的概率密度为$f_X(x)=e^{-x},x>0$.
+
+(1) 由$Y$的分布可知，$Z$的概率密度为
+\[f_Z(z)= \begin{cases} p e^{z}, & z<0, \\ (1-p) e^{-z}, & z>0, \\ 0, & z=0 \end{cases}\]
+(2) 由$E(X)=1,D(X)=1$,且X和Y相互独立, 则
+\[E(Z)=E(XY)=E(X)E(Y)=1\cdot(1-2p)=1-2p.\]
+\[E(X^2) = \int_0^{+\infty} x^2 e^{-x} \mathrm{d}x = 2.\]
+则
+\[\mathrm{cov}(X,Z)=E(XZ)-E(X)E(Z)=E(X^2)E(Y)-E(X)E(Z)=2(1-2p)-1(1-2p)=1-2p.\]
+当$\mathrm{cov}(X,Z)=0$时，$1-2p=0$, 即$p=\frac{1}{2}$时, $X$与$Z$不相关.
+
+(3) 
+
+取区间事件
+\[
+A=[1,1.01], \qquad B=[1,1.01].
+\]
+
+由于 $Z=XY$，当 $Z>0$ 时必有 $Y=1$，因此事件
+\[
+\{ X\in A,\; Z\in B \}
+=
+\{ X\in[1,1.01],\; Y=1 \}.
+\]
+于是
+\[
+P(X\in A,\; Z\in B)
+=
+P(Y=1)\,P(X\in[1,1.01])
+=
+(1-p)\left(e^{-1}-e^{-1.01}\right).
+\]
+
+另一方面,
+\[
+P(X\in A)=e^{-1}-e^{-1.01}.
+\]
+由于当 $z>0$ 时 $Z$ 的密度为 $f_Z(z)=(1-p)e^{-z}$，因此
+\[
+P(Z\in B)
+=
+\int_{1}^{1.01}(1-p)e^{-z}\,dz
+=
+(1-p)\left(e^{-1}-e^{-1.01}\right).
+\]
+于是
+\[
+P(X\in A)P(Z\in B)
+=
+\left(e^{-1}-e^{-1.01}\right)\cdot(1-p)\left(e^{-1}-e^{-1.01}\right)
+=
+(1-p)\left(e^{-1}-e^{-1.01}\right)^2.
+\]
+
+显然有
+\[
+P(X\in A,\; Z\in B)\neq P(X\in A)P(Z\in B),
+\]
+说明 $X$ 与 $Z$ 不独立。
+
+\end{solution}
+
+\begin{problem}
+随机变量X,Y的一阶矩二阶矩均存在，证明 $(E(XY))^2 \leq E(X^2)E(Y^2)$，并讨论等号成立的条件。
+\end{problem}
+\begin{solution}
+    考虑随机变量 $X - tY$，则
+    \[
+    E\left[(X - tY)^2\right] = E(X^2) - 2tE(XY) + t^2E(Y^2) \geq 0.
+    \]
+    上式为关于 $t$ 的二次函数，其判别式应小于等于零，即
+    \[
+    \Delta = (-2E(XY))^2 - 4E(X^2)E(Y^2) \leq 0,
+    \]
+    整理得
+    \[
+    (E(XY))^2 \leq E(X^2)E(Y^2).
+    \]
+    当且仅当存在实数 $t$ 使得 $P(X - tY = 0) = 1$ 时，等号成立。
+\end{solution}
+\end{document}
